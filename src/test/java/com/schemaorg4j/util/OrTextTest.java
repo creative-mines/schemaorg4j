@@ -1,9 +1,9 @@
+package com.schemaorg4j.util;
+
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNull;
 
-import com.schemaorg4j.util.Lens;
-import com.schemaorg4j.util.OrText;
 import org.junit.Assert;
 import org.junit.Test;
 

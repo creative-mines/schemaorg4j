@@ -1,12 +1,12 @@
 package com.schemaorg4j.codegen.domain;
 
-import java.util.List;
+import java.util.Set;
 
 public class SchemaPropertyBuilder {
 
     private String id;
-    private List<String> domainIncludesIds;
-    private List<String> rangeIncludesIds;
+    private Set<String> domainIncludesIds;
+    private Set<String> rangeIncludesIds;
     private String comment;
     private String label;
 
@@ -15,12 +15,12 @@ public class SchemaPropertyBuilder {
         return this;
     }
 
-    public SchemaPropertyBuilder setDomainIncludesIds(List<String> domainIncludesIds) {
+    public SchemaPropertyBuilder setDomainIncludesIds(Set<String> domainIncludesIds) {
         this.domainIncludesIds = domainIncludesIds;
         return this;
     }
 
-    public SchemaPropertyBuilder setRangeIncludesIds(List<String> rangeIncludesIds) {
+    public SchemaPropertyBuilder setRangeIncludesIds(Set<String> rangeIncludesIds) {
         this.rangeIncludesIds = rangeIncludesIds;
         return this;
     }

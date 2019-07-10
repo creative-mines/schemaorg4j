@@ -5,8 +5,8 @@ import java.util.function.Function;
 
 public class Lens<A, B> {
 
-    public Function<A, B> fget;
-    public BiFunction<A, B, A> fset;
+    private Function<A, B> fget;
+    private BiFunction<A, B, A> fset;
 
     public Lens(Function<A, B> fget, BiFunction<A, B, A> fset) {
         this.fget = fget;

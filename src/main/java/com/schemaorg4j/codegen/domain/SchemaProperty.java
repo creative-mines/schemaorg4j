@@ -1,17 +1,18 @@
 package com.schemaorg4j.codegen.domain;
 
 import java.util.List;
+import java.util.Set;
 
 public class SchemaProperty {
 
     private String id;
-    private List<String> domainIncludesIds;
-    private List<String> rangeIncludesIds;
+    private Set<String> domainIncludesIds;
+    private Set<String> rangeIncludesIds;
     private String comment;
     private String label;
 
-    public SchemaProperty(String id, List<String> domainIncludesIds,
-        List<String> rangeIncludesIds, String comment, String label) {
+    public SchemaProperty(String id, Set<String> domainIncludesIds,
+        Set<String> rangeIncludesIds, String comment, String label) {
         this.id = id;
         this.domainIncludesIds = domainIncludesIds;
         this.rangeIncludesIds = rangeIncludesIds;
@@ -27,19 +28,19 @@ public class SchemaProperty {
         this.id = id;
     }
 
-    public List<String> getDomainIncludesIds() {
+    public Set<String> getDomainIncludesIds() {
         return domainIncludesIds;
     }
 
-    public void setDomainIncludesIds(List<String> domainIncludesIds) {
+    public void setDomainIncludesIds(Set<String> domainIncludesIds) {
         this.domainIncludesIds = domainIncludesIds;
     }
 
-    public List<String> getRangeIncludesIds() {
+    public Set<String> getRangeIncludesIds() {
         return rangeIncludesIds;
     }
 
-    public void setRangeIncludesIds(List<String> rangeIncludesIds) {
+    public void setRangeIncludesIds(Set<String> rangeIncludesIds) {
         this.rangeIncludesIds = rangeIncludesIds;
     }
 

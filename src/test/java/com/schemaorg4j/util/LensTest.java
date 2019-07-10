@@ -1,7 +1,8 @@
+package com.schemaorg4j.util;
+
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 
-import com.schemaorg4j.util.Lens;
 import org.junit.Test;
 
 public class LensTest {
