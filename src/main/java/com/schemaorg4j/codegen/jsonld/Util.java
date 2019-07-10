@@ -1,8 +1,8 @@
 package com.schemaorg4j.codegen.jsonld;
 
-import static com.schemaorg4j.codegen.jsonld.SchemaOrgConstants.COMMENT;
-import static com.schemaorg4j.codegen.jsonld.SchemaOrgConstants.ID;
-import static com.schemaorg4j.codegen.jsonld.SchemaOrgConstants.LABEL;
+import static com.schemaorg4j.codegen.constants.SchemaOrgConstants.COMMENT;
+import static com.schemaorg4j.codegen.constants.SchemaOrgConstants.ID;
+import static com.schemaorg4j.codegen.constants.SchemaOrgConstants.LABEL;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import java.util.Collections;

@@ -1,10 +1,8 @@
 package com.schemaorg4j.codegen.jsonld;
 
-import static com.schemaorg4j.codegen.jsonld.SchemaOrgConstants.COMMENT;
-import static com.schemaorg4j.codegen.jsonld.SchemaOrgConstants.DOMAIN_INCLUDES;
-import static com.schemaorg4j.codegen.jsonld.SchemaOrgConstants.ID;
-import static com.schemaorg4j.codegen.jsonld.SchemaOrgConstants.LABEL;
-import static com.schemaorg4j.codegen.jsonld.SchemaOrgConstants.RANGE_INCLUDES;
+import static com.schemaorg4j.codegen.constants.SchemaOrgConstants.DOMAIN_INCLUDES;
+import static com.schemaorg4j.codegen.constants.SchemaOrgConstants.ID;
+import static com.schemaorg4j.codegen.constants.SchemaOrgConstants.RANGE_INCLUDES;
 import static com.schemaorg4j.codegen.jsonld.Util.extractAsSingleFieldOrArray;
 import static com.schemaorg4j.codegen.jsonld.Util.getComment;
 import static com.schemaorg4j.codegen.jsonld.Util.getLabel;
@@ -17,8 +15,6 @@ import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
 import com.schemaorg4j.codegen.domain.SchemaProperty;
 import com.schemaorg4j.codegen.domain.SchemaPropertyBuilder;
 import java.io.IOException;
-import java.util.Collections;
-import java.util.HashSet;
 import java.util.Set;
 
 public class SchemaPropertyDeserializer extends StdDeserializer<SchemaProperty> {

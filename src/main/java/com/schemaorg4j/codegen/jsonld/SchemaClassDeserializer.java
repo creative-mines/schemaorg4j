@@ -1,7 +1,7 @@
 package com.schemaorg4j.codegen.jsonld;
 
-import static com.schemaorg4j.codegen.jsonld.SchemaOrgConstants.ID;
-import static com.schemaorg4j.codegen.jsonld.SchemaOrgConstants.SUBCLASS_OF;
+import static com.schemaorg4j.codegen.constants.SchemaOrgConstants.ID;
+import static com.schemaorg4j.codegen.constants.SchemaOrgConstants.SUBCLASS_OF;
 import static com.schemaorg4j.codegen.jsonld.Util.extractAsSingleFieldOrArray;
 import static com.schemaorg4j.codegen.jsonld.Util.getComment;
 import static com.schemaorg4j.codegen.jsonld.Util.getLabel;
