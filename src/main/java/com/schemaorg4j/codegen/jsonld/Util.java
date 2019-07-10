@@ -5,6 +5,13 @@ import static com.schemaorg4j.codegen.constants.SchemaOrgConstants.ID;
 import static com.schemaorg4j.codegen.constants.SchemaOrgConstants.LABEL;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.module.SimpleModule;
+import com.schemaorg4j.codegen.domain.SchemaClass;
+import com.schemaorg4j.codegen.domain.SchemaDataType;
+import com.schemaorg4j.codegen.domain.SchemaEnumMember;
+import com.schemaorg4j.codegen.domain.SchemaGraph;
+import com.schemaorg4j.codegen.domain.SchemaProperty;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
@@ -13,6 +20,23 @@ import java.util.Set;
  * Package private Util class specifically for json deserializers
  */
 class Util {
+
+    private static ObjectMapper OBJECT_MAPPER_INSTNACE;
+
+    public static ObjectMapper getObjectMapperInstnace() {
+        if (OBJECT_MAPPER_INSTNACE == null) {
+            OBJECT_MAPPER_INSTNACE = new ObjectMapper();
+            SimpleModule mod = new SimpleModule();
+            mod.addDeserializer(SchemaProperty.class, new SchemaPropertyDeserializer(SchemaProperty.class));
+            mod.addDeserializer(SchemaDataType.class, new SchemaDataTypeDeserializer(SchemaDataType.class));
+            mod.addDeserializer(SchemaClass.class, new SchemaClassDeserializer(SchemaClass.class));
+            mod.addDeserializer(SchemaEnumMember.class, new SchemaEnumMemberDeserializer(SchemaEnumMember.class));
+            mod.addDeserializer(SchemaGraph.class, new SchemaGraphDeserializer(SchemaGraph.class));
+            OBJECT_MAPPER_INSTNACE.registerModule(mod);
+        }
+        return OBJECT_MAPPER_INSTNACE;
+    }
+
 
 
     static String getLabel(JsonNode node) {
