@@ -53,6 +53,7 @@ public class SchemaGraphDeserializer extends StdDeserializer<SchemaGraph> {
     public List<NodeHandler> getChain(SchemaGraph g, ObjectCodec codec) {
         return new ArrayList<NodeHandler>() {{
             add(new SchemaClassNodeHandler(g, codec));
+            add(new SchemaPropertyNodeHandler(g, codec));
         }};
     }
 }

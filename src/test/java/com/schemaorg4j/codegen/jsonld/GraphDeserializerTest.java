@@ -2,8 +2,10 @@ package com.schemaorg4j.codegen.jsonld;
 
 import static org.junit.Assert.assertEquals;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.schemaorg4j.codegen.domain.SchemaClass;
 import com.schemaorg4j.codegen.domain.SchemaGraph;
+import com.schemaorg4j.codegen.domain.SchemaProperty;
 import java.io.IOException;
 import java.util.HashSet;
 import java.util.stream.Collectors;
@@ -98,8 +100,33 @@ public class GraphDeserializerTest extends DeserializerTest {
     }
 
     @Test
-    public void canDeserializePropertiesOnAClass() {
+    public void canDeserializePropertiesOnAClass() throws IOException {
+        String json = "{ \"@graph\" : [{\n"
+            + "      \"@id\": \"http://schema.org/fileFormat\",\n"
+            + "      \"@type\": \"rdf:Property\",\n"
+            + "      \"http://schema.org/domainIncludes\": {\n"
+            + "        \"@id\": \"http://schema.org/CreativeWork\"\n"
+            + "      },\n"
+            + "      \"http://schema.org/rangeIncludes\": [\n"
+            + "        {\n"
+            + "          \"@id\": \"http://schema.org/URL\"\n"
+            + "        },\n"
+            + "        {\n"
+            + "          \"@id\": \"http://schema.org/Text\"\n"
+            + "        }\n"
+            + "      ],\n"
+            + "      \"http://schema.org/supersededBy\": {\n"
+            + "        \"@id\": \"http://schema.org/encodingFormat\"\n"
+            + "      },\n"
+            + "      \"rdfs:comment\": \"Media type, typically MIME format (see <a href=\\\"http://www.iana.org/assignments/media-types/media-types.xhtml\\\">IANA site</a>) of the content e.g. application/zip of a SoftwareApplication binary. In cases where a CreativeWork has several media type representations, 'encoding' can be used to indicate each MediaObject alongside particular fileFormat information. Unregistered or niche file formats can be indicated instead via the most appropriate URL, e.g. defining Web page or a Wikipedia entry.\",\n"
+            + "      \"rdfs:label\": \"fileFormat\"\n"
+            + "    }]}";
 
+        SchemaGraph g = objectMapper().readValue(json, SchemaGraph.class);
+        assertEquals(g.getProperties("http://schema.org/CreativeWork").stream().map(
+            SchemaProperty::getId).collect(Collectors.toSet()), new HashSet<String>() {{
+                add("http://schema.org/fileFormat");
+        }});
     }
 
     @Test
@@ -107,4 +134,8 @@ public class GraphDeserializerTest extends DeserializerTest {
 
     }
 
+    @Test
+    public void anythingStillWaitingForASuperClassAfterFinializationWillNotShowUpInClassQueries() {
+
+    }
 }

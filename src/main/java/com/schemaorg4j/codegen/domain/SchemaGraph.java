@@ -1,9 +1,9 @@
 package com.schemaorg4j.codegen.domain;
 
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -11,8 +11,8 @@ public class SchemaGraph {
 
     private Map<String, SchemaClass> classesById;
     private Map<String, Set<SchemaClass>> superClassById;
-    private Map<String, List<SchemaProperty>> propertiesByClassId;
-    private Map<String, List<SchemaEnumMember>> enumMembersByClassId;
+    private Map<String, Set<SchemaProperty>> propertiesByClassId;
+    private Map<String, Set<SchemaEnumMember>> enumMembersByClassId;
 
     private Map<String, Set<SchemaClass>> waitingForSuperclassById;
 
@@ -74,9 +74,19 @@ public class SchemaGraph {
         return superClassById.getOrDefault(classId, null);
     }
 
-    public boolean isWaitingForSuperClass(String classId) {
-        return false;
+    public void addProperty(SchemaProperty property) {
+        for (String classId : property.getDomainIncludesIds()) {
+            if (propertiesByClassId.containsKey(classId)) {
+                propertiesByClassId.get(classId).add(property);
+            } else {
+                propertiesByClassId.put(classId, new HashSet<SchemaProperty>() {{
+                    add(property);
+                }});
+            }
+        }
     }
 
-
+    public Set<SchemaProperty> getProperties(String id) {
+        return propertiesByClassId.getOrDefault(id, Collections.emptySet());
+    }
 }
