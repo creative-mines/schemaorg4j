@@ -5,8 +5,19 @@
     <exclude-output />
     <content url="file://$MODULE_DIR$/../../src/main">
       <sourceFolder url="file://$MODULE_DIR$/../../src/main/java" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../src/main/resources" type="java-resource" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="library" name="Gradle: com.squareup:javawriter:2.5.1" level="project" />
+    <orderEntry type="module-library">
+      <library name="Gradle: com.fasterxml.jackson:jackson-core:2.9.9">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/../../Could not find com.fasterxml.jackson:jackson-core:2.9.9.&#10;Searched in the following locations:&#10;    https:/jcenter.bintray.com/com/fasterxml/jackson/jackson-core/2.9.9/jackson-core-2.9.9.pom&#10;    https:/jcenter.bintray.com/com/fasterxml/jackson/jackson-core/2.9.9/jackson-core-2.9.9.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
   </component>
 </module>
