@@ -2,22 +2,12 @@ package com.schemaorg4j.codegen.jsonld;
 
 import static org.junit.Assert.assertEquals;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.schemaorg4j.codegen.domain.SchemaProperty;
 import java.io.IOException;
 import java.util.HashSet;
 import org.junit.Test;
 
-public class PropertyDeserializerTest {
-
-    private ObjectMapper objectMapper() {
-        ObjectMapper om = new ObjectMapper();
-        SimpleModule mod = new SimpleModule();
-        mod.addDeserializer(SchemaProperty.class, new SchemaPropertyDeserializer(SchemaProperty.class));
-        om.registerModule(mod);
-        return om;
-    }
+public class PropertyDeserializerTest extends DeserializerTest {
 
     private String property() {
         return "{\n"

@@ -1,15 +1,16 @@
 package com.schemaorg4j.codegen.domain;
 
 import java.util.List;
+import java.util.Set;
 
 public class SchemaClass {
 
     private String id;
-    private List<String> subclassOfIds;
+    private Set<String> subclassOfIds;
     private String label;
     private String comment;
 
-    public SchemaClass(String id, List<String> subclassOfIds, String label,
+    public SchemaClass(String id, Set<String> subclassOfIds, String label,
         String comment) {
         this.id = id;
         this.subclassOfIds = subclassOfIds;
@@ -25,11 +26,11 @@ public class SchemaClass {
         this.id = id;
     }
 
-    public List<String> getSubclassOfIds() {
+    public Set<String> getSubclassOfIds() {
         return subclassOfIds;
     }
 
-    public void setSubclassOfIds(List<String> subclassOfIds) {
+    public void setSubclassOfIds(Set<String> subclassOfIds) {
         this.subclassOfIds = subclassOfIds;
     }
 

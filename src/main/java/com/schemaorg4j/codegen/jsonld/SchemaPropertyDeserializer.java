@@ -5,6 +5,9 @@ import static com.schemaorg4j.codegen.jsonld.SchemaOrgConstants.DOMAIN_INCLUDES;
 import static com.schemaorg4j.codegen.jsonld.SchemaOrgConstants.ID;
 import static com.schemaorg4j.codegen.jsonld.SchemaOrgConstants.LABEL;
 import static com.schemaorg4j.codegen.jsonld.SchemaOrgConstants.RANGE_INCLUDES;
+import static com.schemaorg4j.codegen.jsonld.Util.extractAsSingleFieldOrArray;
+import static com.schemaorg4j.codegen.jsonld.Util.getComment;
+import static com.schemaorg4j.codegen.jsonld.Util.getLabel;
 
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -41,20 +44,6 @@ public class SchemaPropertyDeserializer extends StdDeserializer<SchemaProperty> 
             .createSchemaProperty();
     }
 
-    private String getLabel(JsonNode node) {
-        if (node.has(LABEL)) {
-            return node.get(LABEL).asText();
-        }
-        return null;
-    }
-
-    private String getComment(JsonNode node) {
-        if (node.has(COMMENT)) {
-            return node.get(COMMENT).asText();
-        }
-        return null;
-    }
-
     private Set<String> getRangeIncludes(JsonNode node) {
         return extractAsSingleFieldOrArray(node, RANGE_INCLUDES);
     }
@@ -63,33 +52,4 @@ public class SchemaPropertyDeserializer extends StdDeserializer<SchemaProperty> 
         return extractAsSingleFieldOrArray(node, DOMAIN_INCLUDES);
     }
 
-    private Set<String> extractAsSingleFieldOrArray(JsonNode node, String fieldName) {
-        if (!node.has(fieldName)) {
-            return Collections.emptySet();
-        }
-
-        JsonNode fieldNode = node.get(fieldName);
-
-        if (fieldNode.isArray()) {
-            return extractArrayAsSet(fieldNode);
-        }
-
-        if (fieldNode.isObject()) {
-            return extractObjectAsSet(fieldNode);
-        }
-
-        return Collections.emptySet();
-    }
-
-    private Set<String> extractObjectAsSet(JsonNode fieldNode) {
-        return Collections.singleton(fieldNode.get(ID).asText());
-    }
-
-    private Set<String> extractArrayAsSet(JsonNode node) {
-        Set<String> result = new HashSet<>();
-        for (int i = 0; i < node.size(); i++) {
-            result.add(node.get(i).get(ID).asText());
-        }
-        return result;
-    }
 }

@@ -6,4 +6,5 @@ public class SchemaOrgConstants {
     public static final String DOMAIN_INCLUDES = "http://schema.org/domainIncludes";
     public static final String COMMENT = "rdfs:comment";
     public static final String LABEL = "rdfs:label";
+    public static final String SUBCLASS_OF = "rdfs:subClassOf";
 }
