@@ -10,23 +10,45 @@ import static com.schemaorg4j.codegen.constants.SchemaOrgConstants.NUMBER_ID;
 import static com.schemaorg4j.codegen.constants.SchemaOrgConstants.TEXT_ID;
 import static com.schemaorg4j.codegen.constants.SchemaOrgConstants.TIME_ID;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
+
 public class SchemaDataType {
 
     private final String id;
     private final String javaDataType;
+    private final String label;
 
-    public static final SchemaDataType BOOLEAN = new SchemaDataType(BOOLEAN_ID, "Boolean");
-    public static final SchemaDataType DATE = new SchemaDataType(DATE_ID, DATATYPES_PACKAGE + ".Date");
-    public static final SchemaDataType DATETIME = new SchemaDataType(DATETIME_ID, DATATYPES_PACKAGE + ".DateTime");
-    public static final SchemaDataType NUMBER = new SchemaDataType(NUMBER_ID, "Float");
-    public static final SchemaDataType FLOAT = new SchemaDataType(FLOAT_ID, "Float");
-    public static final SchemaDataType INTEGER = new SchemaDataType(INTEGER_ID, "Integer");
-    public static final SchemaDataType TEXT = new SchemaDataType(TEXT_ID, "String");
-    public static final SchemaDataType TIME = new SchemaDataType(TIME_ID, DATATYPES_PACKAGE + ".Time");
+    public static final SchemaDataType BOOLEAN = new SchemaDataType(BOOLEAN_ID, "Boolean", "Boolean");
+    public static final SchemaDataType DATE = new SchemaDataType(DATE_ID, DATATYPES_PACKAGE + ".Date", "Date");
+    public static final SchemaDataType DATETIME = new SchemaDataType(DATETIME_ID, DATATYPES_PACKAGE + ".DateTime", "DateTime");
+    public static final SchemaDataType NUMBER = new SchemaDataType(NUMBER_ID, "Float", "Number");
+    public static final SchemaDataType FLOAT = new SchemaDataType(FLOAT_ID, "Float", "Float");
+    public static final SchemaDataType INTEGER = new SchemaDataType(INTEGER_ID, "Integer", "Integer");
+    public static final SchemaDataType TEXT = new SchemaDataType(TEXT_ID, "String", "Text");
+    public static final SchemaDataType TIME = new SchemaDataType(TIME_ID, DATATYPES_PACKAGE + ".Time", "Time");
 
-    private SchemaDataType(String id, String javaDataType) {
+    private static final List<SchemaDataType> LIST = new ArrayList<SchemaDataType>() {{
+        add(BOOLEAN);
+        add(DATE);
+        add(DATETIME);
+        add(NUMBER);
+        add(FLOAT);
+        add(INTEGER);
+        add(TEXT);
+        add(TIME);
+    }};
+
+    public static Optional<SchemaDataType> findById(String id) {
+        return LIST.stream().filter(type -> Objects.equals(type.getId(), id)).findFirst();
+    }
+
+    private SchemaDataType(String id, String javaDataType, String label) {
         this.id = id;
         this.javaDataType = javaDataType;
+        this.label = label;
     }
 
     public String getId() {
@@ -35,5 +57,9 @@ public class SchemaDataType {
 
     public String getJavaDataType() {
         return javaDataType;
+    }
+
+    public String getLabel() {
+        return label;
     }
 }
