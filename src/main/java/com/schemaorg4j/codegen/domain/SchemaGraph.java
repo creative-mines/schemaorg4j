@@ -1,9 +1,10 @@
 package com.schemaorg4j.codegen.domain;
 
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -88,5 +89,40 @@ public class SchemaGraph {
 
     public Set<SchemaProperty> getProperties(String id) {
         return propertiesByClassId.getOrDefault(id, Collections.emptySet());
+    }
+
+    public void addEnumMember(SchemaEnumMember schemaEnumMember) {
+        if (enumMembersByClassId.containsKey(schemaEnumMember.getEnumId())) {
+            enumMembersByClassId.get(schemaEnumMember.getEnumId()).add(schemaEnumMember);
+        } else {
+            enumMembersByClassId.put(schemaEnumMember.getEnumId(), new HashSet<SchemaEnumMember>() {{
+                add(schemaEnumMember);
+            }});
+        }
+    }
+
+    public Set<SchemaEnumMember> getEnumMembers(String id) {
+        return enumMembersByClassId.getOrDefault(id, Collections.emptySet());
+    }
+
+    public void finalizeGraph() {
+
+        List<SchemaClass> removedClasses = new ArrayList<>();
+
+        waitingForSuperclassById.values().forEach(setOfClassesToRemove -> {
+            setOfClassesToRemove.forEach(classToRemove -> {
+                removedClasses.add(classesById.remove(classToRemove.getId()));
+            });
+        });
+
+        while (!removedClasses.isEmpty()) {
+            SchemaClass parentClass = removedClasses.remove(0);
+
+            classesById.values().forEach(schemaClass -> {
+                if (schemaClass.getSubclassOfIds().contains(parentClass.getId())) {
+                    removedClasses.add(classesById.remove(schemaClass.getId()));
+                }
+            });
+        }
     }
 }

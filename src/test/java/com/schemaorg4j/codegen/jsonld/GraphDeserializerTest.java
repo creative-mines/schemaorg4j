@@ -1,9 +1,10 @@
 package com.schemaorg4j.codegen.jsonld;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.schemaorg4j.codegen.domain.SchemaClass;
+import com.schemaorg4j.codegen.domain.SchemaEnumMember;
 import com.schemaorg4j.codegen.domain.SchemaGraph;
 import com.schemaorg4j.codegen.domain.SchemaProperty;
 import java.io.IOException;
@@ -92,8 +93,9 @@ public class GraphDeserializerTest extends DeserializerTest {
             + "}";
 
         SchemaGraph g = objectMapper().readValue(json, SchemaGraph.class);
-        assertEquals(g.getSuperclasses("http://schema.org/Book").stream().map(SchemaClass::getId).collect(
-            Collectors.toSet()), new HashSet<String>() {{
+        assertEquals(
+            g.getSuperclasses("http://schema.org/Book").stream().map(SchemaClass::getId).collect(
+                Collectors.toSet()), new HashSet<String>() {{
                 add("http://schema.org/Thing");
                 add("http://schema.org/CreativeWork");
             }});
@@ -125,17 +127,46 @@ public class GraphDeserializerTest extends DeserializerTest {
         SchemaGraph g = objectMapper().readValue(json, SchemaGraph.class);
         assertEquals(g.getProperties("http://schema.org/CreativeWork").stream().map(
             SchemaProperty::getId).collect(Collectors.toSet()), new HashSet<String>() {{
-                add("http://schema.org/fileFormat");
+            add("http://schema.org/fileFormat");
         }});
     }
 
     @Test
-    public void canDeserializeEnumProperties() {
+    public void canDeserializeEnumProperties() throws IOException {
+        String json = "{ \"@graph\": [{\n"
+            + "      \"@id\": \"http://schema.org/AudiobookFormat\",\n"
+            + "      \"@type\": \"http://schema.org/BookFormatType\",\n"
+            + "      \"rdfs:comment\": \"Book format: Audiobook. This is an enumerated value for use with the bookFormat property. There is also a type 'Audiobook' in the bib extension which includes Audiobook specific properties.\",\n"
+            + "      \"rdfs:label\": \"AudiobookFormat\"\n"
+            + "    }]}";
+
+        SchemaGraph g = objectMapper().readValue(json, SchemaGraph.class);
+        assertEquals(g.getEnumMembers("http://schema.org/BookFormatType").stream().map(
+            SchemaEnumMember::getId).collect(Collectors.toSet()), new HashSet<String>() {{
+            add("http://schema.org/AudiobookFormat");
+        }});
 
     }
 
     @Test
-    public void anythingStillWaitingForASuperClassAfterFinializationWillNotShowUpInClassQueries() {
+    public void anythingStillWaitingForASuperClassAfterFinializationWillNotShowUpInClassQueries()
+        throws IOException {
+        String json = "{\n"
+            + "  \"@graph\": [{\n"
+            + "    \"@id\": \"http://schema.org/CreativeWork\",\n"
+            + "    \"@type\": \"rdf:Class\"\n"
+            + "  },"
+            + "  {\n"
+            + "    \"@id\": \"http://schema.org/Book\",\n"
+            + "    \"@type\": \"rdf:Class\",\n"
+            + "    \"rdfs:subClassOf\": [{\n"
+            + "      \"@id\": \"http://schema.org/CreativeWork\"}, \n"
+            + "      {\"@id\": \"http://schema.org/Thing\" \n"
+            + "    }]\n"
+            + "  }]\n"
+            + "}";
 
+        SchemaGraph g = objectMapper().readValue(json, SchemaGraph.class);
+        assertNull(g.getClass("http://schema.org/Book"));
     }
 }

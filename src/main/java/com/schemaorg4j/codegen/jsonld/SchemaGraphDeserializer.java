@@ -37,6 +37,7 @@ public class SchemaGraphDeserializer extends StdDeserializer<SchemaGraph> {
             handleChain(chain, graphNode.get(nodeIndex));
         }
 
+        graph.finalizeGraph();
         return graph;
     }
 
@@ -54,6 +55,7 @@ public class SchemaGraphDeserializer extends StdDeserializer<SchemaGraph> {
         return new ArrayList<NodeHandler>() {{
             add(new SchemaClassNodeHandler(g, codec));
             add(new SchemaPropertyNodeHandler(g, codec));
+            add(new SchemaEnumMemberNodeHandler(g, codec));
         }};
     }
 }
