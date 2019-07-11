@@ -4,6 +4,7 @@ import com.schemaorg4j.codegen.domain.SchemaClass;
 import com.schemaorg4j.codegen.domain.SchemaGraph;
 import com.schemaorg4j.codegen.factory.types.CachingTypeFactory;
 import com.schemaorg4j.codegen.factory.types.SimpleTypeFactory;
+import com.schemaorg4j.codegen.factory.types.TypeFactory;
 import com.squareup.javapoet.JavaFile;
 import com.squareup.javapoet.TypeSpec;
 import java.util.ArrayList;
@@ -20,8 +21,10 @@ public class JavaFileFactory {
     }
 
     public Collection<JavaFile> buildJavaFiles(SchemaGraph graph) {
+        TypeFactory typeFactory = new CachingTypeFactory(new SimpleTypeFactory(graph));
+
         ArrayList<BlueprintContributor> chain = new ArrayList<BlueprintContributor>() {{
-            add(new FieldContributor(graph, new CachingTypeFactory(new SimpleTypeFactory())));
+            add(new FieldContributor(graph, typeFactory));
             add(new EnumMemberContributor(graph));
             add(new ErrorObjectContributor());
             add(new MethodContributor(graph));
