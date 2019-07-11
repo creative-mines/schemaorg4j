@@ -5,6 +5,8 @@ import com.schemaorg4j.codegen.domain.SchemaDataType;
 import com.schemaorg4j.codegen.domain.SchemaGraph;
 import com.schemaorg4j.codegen.domain.SchemaProperty;
 import com.schemaorg4j.codegen.domain.SchemaPropertyBuilder;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.HashSet;
 
 class TypeFactoryTest {
@@ -12,9 +14,11 @@ class TypeFactoryTest {
     SchemaGraph schemaGraph(SchemaProperty schemaProperty, String classLabel) {
         SchemaGraph schemaGraph = new SchemaGraph();
         schemaGraph.addProperty(schemaProperty);
-        schemaGraph.addClass(new SchemaClassBuilder()
-            .setId(schemaProperty.getRangeIncludesIds().stream().findFirst().get())
-            .setLabel(classLabel).createSchemaClass());
+        schemaProperty.getRangeIncludesIds().stream().forEach(includes -> {
+            schemaGraph.addClass(new SchemaClassBuilder()
+                .setId(includes)
+                .setLabel(classLabel).createSchemaClass());
+        });
         return schemaGraph;
     }
 
@@ -23,8 +27,12 @@ class TypeFactoryTest {
     }
 
     SchemaProperty schemaProperty(String id) {
+        return schemaProperty(Collections.singleton(id));
+    }
+
+    SchemaProperty schemaProperty(Collection<String> ids) {
         return new SchemaPropertyBuilder().setRangeIncludesIds(new HashSet<String>() {{
-            add(id);
+            this.addAll(ids);
         }}).createSchemaProperty();
     }
 
