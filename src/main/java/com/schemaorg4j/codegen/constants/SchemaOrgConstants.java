@@ -22,4 +22,5 @@ public class SchemaOrgConstants {
     public static final String FLOAT_ID = "http://schema.org/Float";
     public static final String TEXT_ID = "http://schema.org/Text";
     public static final String TIME_ID = "http://schema.org/Time";
+    public static final String ENUM_ID = "http://schema.org/Enumeration";
 }
