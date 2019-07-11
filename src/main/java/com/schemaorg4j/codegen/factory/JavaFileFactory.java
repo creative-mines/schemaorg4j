@@ -26,11 +26,11 @@ public class JavaFileFactory {
         ArrayList<BlueprintContributor> chain = new ArrayList<BlueprintContributor>() {{
             add(new FieldContributor(graph, typeFactory));
             add(new EnumMemberContributor(graph));
-            add(new ErrorObjectContributor());
             add(new MethodContributor(graph));
             add(new LensContributor(graph));
-            add(new ImplementationContributor(graph));
             add(new InterfaceContributor(graph));
+            add(new ErrorObjectContributor());
+            add(new ImplementationContributor(graph));
         }};
 
         return graph

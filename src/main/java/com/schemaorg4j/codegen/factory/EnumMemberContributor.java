@@ -33,7 +33,7 @@ public class EnumMemberContributor implements BlueprintContributor {
 
         ClassName typeName = ClassName.get(ENUM_PACKAGE, schemaClass.getLabel() + "EnumMembers");
 
-        Builder enumBuilder = TypeSpec.enumBuilder(typeName);
+        Builder enumBuilder = TypeSpec.enumBuilder(typeName).addModifiers(Modifier.PUBLIC);
         for (SchemaEnumMember member : graph.getEnumMembers(schemaClass.getId())) {
             enumBuilder.addEnumConstant(member.getLabel());
         }

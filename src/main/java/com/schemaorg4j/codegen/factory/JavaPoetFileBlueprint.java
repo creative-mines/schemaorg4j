@@ -6,6 +6,11 @@ import com.squareup.javapoet.TypeSpec;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * All methods and fields are designed to end up on all types in this blueprint.  If a type
+ * would need to be produced in parallel with this blueprint but require different types or methods,
+ * it must be emitted separately.
+ */
 public class JavaPoetFileBlueprint {
 
     private List<TypeSpec> types;
