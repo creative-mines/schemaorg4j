@@ -1,5 +1,6 @@
 package com.schemaorg4j.codegen.domain;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 
@@ -29,7 +30,7 @@ public class SchemaProperty {
     }
 
     public Set<String> getDomainIncludesIds() {
-        return domainIncludesIds;
+        return domainIncludesIds != null ? domainIncludesIds : Collections.emptySet();
     }
 
     public void setDomainIncludesIds(Set<String> domainIncludesIds) {
@@ -37,7 +38,7 @@ public class SchemaProperty {
     }
 
     public Set<String> getRangeIncludesIds() {
-        return rangeIncludesIds;
+        return rangeIncludesIds != null ? rangeIncludesIds : Collections.emptySet();
     }
 
     public void setRangeIncludesIds(Set<String> rangeIncludesIds) {
