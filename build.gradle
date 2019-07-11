@@ -17,7 +17,7 @@ dependencies {
     // 'test.useTestNG()' to your build script.
     testCompile 'junit:junit:4.12'
     compile 'com.fasterxml.jackson.core:jackson-databind:2.9.9'
-    compile 'com.squareup:javawriter:2.5.1'
+    compile 'com.squareup:javapoet:1.11.1'
     implementation 'org.slf4j:slf4j-api:1.7.26'
 
 }

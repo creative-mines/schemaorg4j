@@ -1,6 +1,7 @@
 package com.schemaorg4j.codegen.domain;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -27,6 +28,10 @@ public class SchemaGraph {
 
     public SchemaClass getClass(String id) {
         return classesById.get(id);
+    }
+
+    public Collection<SchemaClass> getClasses() {
+        return classesById.values();
     }
 
     public void addClass(SchemaClass schemaClass) {
@@ -125,4 +130,5 @@ public class SchemaGraph {
             });
         }
     }
+
 }

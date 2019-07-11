@@ -1,5 +1,6 @@
 package com.schemaorg4j.codegen.domain;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 
@@ -27,7 +28,7 @@ public class SchemaClass {
     }
 
     public Set<String> getSubclassOfIds() {
-        return subclassOfIds;
+        return subclassOfIds != null ? subclassOfIds : Collections.emptySet();
     }
 
     public void setSubclassOfIds(Set<String> subclassOfIds) {
