@@ -16,11 +16,13 @@ public class JavaPoetFileBlueprint {
     private List<TypeSpec> types;
     private List<MethodSpec> methods;
     private List<FieldSpec> fields;
+    private List<FieldSpec> inheritedFields;
 
     public JavaPoetFileBlueprint() {
         this.methods = new ArrayList<>();
         this.fields = new ArrayList<>();
         this.types = new ArrayList<>();
+        inheritedFields = new ArrayList<>();
     }
 
     public void addMethod(MethodSpec methodSpec) {
@@ -35,6 +37,10 @@ public class JavaPoetFileBlueprint {
         this.types.add(typeSpec);
     }
 
+    public void addInheritedField(FieldSpec field) {
+        this.inheritedFields.add(field);
+    }
+
     public List<TypeSpec> getTypes() {
         return types;
     }
@@ -45,5 +51,9 @@ public class JavaPoetFileBlueprint {
 
     public List<MethodSpec> getMethods() {
         return methods;
+    }
+
+    public List<FieldSpec> getInheritedFields() {
+        return inheritedFields;
     }
 }

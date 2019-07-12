@@ -2,6 +2,7 @@ package com.schemaorg4j.codegen.factory;
 
 import com.schemaorg4j.codegen.domain.SchemaGraph;
 import com.schemaorg4j.codegen.factory.types.CachingTypeFactory;
+import com.schemaorg4j.codegen.factory.types.InheritedFieldContributor;
 import com.schemaorg4j.codegen.factory.types.MultiTypeProducingTypeFactory;
 import com.schemaorg4j.codegen.factory.types.SimpleTypeFactory;
 import com.schemaorg4j.codegen.factory.types.TypeFactory;
@@ -10,7 +11,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 public class JavaFileFactory {
 
@@ -33,6 +33,7 @@ public class JavaFileFactory {
             add(new LensContributor(graph));
             add(new InterfaceContributor(graph));
             add(new ErrorObjectContributor());
+            add(new InheritedFieldContributor(graph, typeFactory));
             add(new ImplementationContributor(graph));
         }};
 

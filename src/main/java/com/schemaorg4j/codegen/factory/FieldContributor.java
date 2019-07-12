@@ -24,23 +24,18 @@ public class FieldContributor implements BlueprintContributor {
 
     @Override
     public void contribute(SchemaClass schemaClass, JavaPoetFileBlueprint blueprint) {
-
         graph.getProperties(schemaClass.getId()).forEach(property -> {
             TypeName type = typeFactory.build(property);
 
             try {
-
                 if (type != null) {
-                    FieldSpec spec = FieldSpec
-                        .builder(type, orLabelFromId(property.getLabel(), property.getId()),
-                            Modifier.PRIVATE)
-                        .build();
+                    FieldSpec spec = FieldSpec.builder(type,
+                        orLabelFromId(property.getLabel(), property.getId()),
+                        Modifier.PRIVATE).build();
                     blueprint.addField(spec);
                 } else {
-                    LOGGER
-                        .warn("Could not determine type for field {} on {}, skipping",
-                            property.getId(),
-                            schemaClass.getId());
+                    LOGGER.warn("Could not determine type for field {} on {}, skipping",
+                        property.getId(), schemaClass.getId());
                 }
             } catch (IllegalArgumentException e) {
                 LOGGER.warn("Could not create field '{}' (from {})", property.getLabel(),
