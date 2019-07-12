@@ -5,7 +5,6 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 import com.schemaorg4j.codegen.domain.SchemaClass;
-import com.schemaorg4j.codegen.domain.SchemaClassBuilder;
 import com.schemaorg4j.codegen.domain.SchemaEnumMember;
 import com.schemaorg4j.codegen.domain.SchemaGraph;
 import com.schemaorg4j.codegen.factory.EnumMemberContributor;
@@ -15,30 +14,33 @@ import java.util.Collections;
 import java.util.Map;
 import org.junit.Test;
 
-public class EnumMemberContributorTest {
+public class EnumMemberContributorTest extends ContributorTest {
 
     private SchemaClass schemaClass() {
-        return new SchemaClassBuilder().setId("http://schema.org/BookFormatType")
-            .setLabel("BookFormatType").setSubclassOfIds(
-                Collections.singleton(ENUM_ID)).createSchemaClass();
+        return schemaClass("http://schema.org/BookFormatType", "BookFormatType",
+            Collections.singleton(ENUM_ID));
     }
 
     private SchemaGraph schemaGraph() {
         SchemaClass schemaClass = schemaClass();
-        SchemaGraph graph = new SchemaGraph();
-        graph.addClass(schemaClass);
+        SchemaGraph graph = schemaGraph(schemaClass);
         graph.addEnumMember(
-            new SchemaEnumMember("http://schema.org/AudioBookFormat", schemaClass.getId(), "AudioBookFormat"));
+            new SchemaEnumMember("http://schema.org/AudioBookFormat", schemaClass.getId(),
+                "AudioBookFormat"));
         graph
-            .addEnumMember(new SchemaEnumMember("http://schema.org/EBookFormat", schemaClass.getId(), "EBookFormat"));
+            .addEnumMember(
+                new SchemaEnumMember("http://schema.org/EBookFormat", schemaClass.getId(),
+                    "EBookFormat"));
         return graph;
+
     }
 
     @Test
     public void shouldGenerateAFieldWithTheCorrectEnumTypeAndLabel() {
         JavaPoetFileBlueprint blueprint = new JavaPoetFileBlueprint();
         new EnumMemberContributor(schemaGraph()).contribute(schemaClass(), blueprint);
-        assertEquals(blueprint.getFields().get(0).type.toString(), "com.schemaorg4j.domain.enums.BookFormatTypeEnumMembers");
+        assertEquals(blueprint.getFields().get(0).type.toString(),
+            "com.schemaorg4j.domain.enums.BookFormatTypeEnumMembers");
     }
 
     @Test

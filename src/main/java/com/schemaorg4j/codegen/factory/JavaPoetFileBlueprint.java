@@ -20,6 +20,7 @@ public class JavaPoetFileBlueprint {
     public JavaPoetFileBlueprint() {
         this.methods = new ArrayList<>();
         this.fields = new ArrayList<>();
+        this.types = new ArrayList<>();
     }
 
     public void addMethod(MethodSpec methodSpec) {
