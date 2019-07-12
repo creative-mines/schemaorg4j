@@ -5,7 +5,7 @@ public class SchemaOrgConstants {
     public static final String ID = "@id";
 
     public static final String TYPE = "@type";
-    public static final String CLASS_TYPE = "rdf:Class";
+    public static final String CLASS_TYPE = "rdfs:Class";
     public static final String PROPERTY_TYPE = "rdf:Property";
 
     public static final String RANGE_INCLUDES = "http://schema.org/rangeIncludes";
@@ -23,4 +23,5 @@ public class SchemaOrgConstants {
     public static final String TEXT_ID = "http://schema.org/Text";
     public static final String TIME_ID = "http://schema.org/Time";
     public static final String ENUM_ID = "http://schema.org/Enumeration";
+    public static final String URL_ID = "http://schema.org/URL";
 }

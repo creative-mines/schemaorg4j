@@ -8,10 +8,15 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class DependsOnEmbeddedTypeResolver {
 
     private final List<TypeHandler> chain;
+
+    private static final Logger LOGGER = LoggerFactory
+        .getLogger(DependsOnEmbeddedTypeResolver.class);
 
     public DependsOnEmbeddedTypeResolver(SchemaGraph graph) {
         this.chain = new ArrayList<TypeHandler>() {{
@@ -31,6 +36,7 @@ public class DependsOnEmbeddedTypeResolver {
             return maybeHandler.get().handle(property);
         }
 
-        throw new UnsupportedOperationException("Unable to handle type " + typeId + " in embedded resolver");
+        LOGGER.warn("Unable to handle type " + typeId + " in embedded resolver, skipping");
+        return null;
     }
 }

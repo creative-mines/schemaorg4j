@@ -4,10 +4,14 @@ import com.schemaorg4j.codegen.domain.SchemaGraph;
 import com.schemaorg4j.codegen.domain.SchemaProperty;
 import com.squareup.javapoet.TypeName;
 import java.util.ArrayList;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class SimpleTypeFactory implements TypeFactory {
 
     private final ArrayList<TypeHandler> chain;
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(SimpleTypeFactory.class);
 
     public SimpleTypeFactory(SchemaGraph graph) {
         this.chain = new ArrayList<TypeHandler>() {{
@@ -25,6 +29,8 @@ public class SimpleTypeFactory implements TypeFactory {
             }
         }
 
-        throw new UnsupportedOperationException("No handler was able to handle " + property.getId());
+
+        LOGGER.warn("Unable to determine type for field " + property.getId());
+        return null;
     }
 }

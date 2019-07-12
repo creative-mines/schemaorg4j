@@ -22,7 +22,7 @@ public class OrTextTypeHandler extends DependsOnEmbeddedTypeResolver implements 
     @Override
     public boolean canHandle(SchemaProperty property) {
         Set<String> range = property.getRangeIncludesIds();
-        return hasTwoTypes(range) && hasTextAsOneType(range);
+        return hasTwoTypes(range) && hasTextAsOneType(range) && resolveEmbeddedType(getNonTextId(property)) != null;
     }
 
     private boolean hasTextAsOneType(Set<String> range) {
@@ -35,11 +35,14 @@ public class OrTextTypeHandler extends DependsOnEmbeddedTypeResolver implements 
 
     @Override
     public TypeName handle(SchemaProperty property) {
+        String nonTextId = getNonTextId(property);
+        return ParameterizedTypeName.get(OR_TYPE, resolveEmbeddedType(nonTextId));
+    }
+
+    public String getNonTextId(SchemaProperty property) {
         Set<String> range = property.getRangeIncludesIds();
-        String nonTextId = range.stream()
+        return range.stream()
             .filter(id -> !Objects.equals(SchemaDataType.TEXT.getId(), id))
             .findFirst().get();
-
-        return ParameterizedTypeName.get(OR_TYPE, resolveEmbeddedType(nonTextId));
     }
 }

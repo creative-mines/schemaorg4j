@@ -19,7 +19,8 @@ public class MultiTypeHandler implements TypeHandler {
 
     @Override
     public boolean canHandle(SchemaProperty property) {
-        return true;
+        return property.getRangeIncludesIds().stream()
+            .allMatch(id -> graph.getClass(id) != null || SchemaDataType.findById(id).isPresent());
     }
 
     @Override

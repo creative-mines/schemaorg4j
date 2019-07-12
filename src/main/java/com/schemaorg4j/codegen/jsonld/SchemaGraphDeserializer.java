@@ -31,7 +31,6 @@ public class SchemaGraphDeserializer extends StdDeserializer<SchemaGraph> {
         SchemaGraph graph = new SchemaGraph();
         List<NodeHandler> chain = getChain(graph, p.getCodec());
 
-
         JsonNode graphNode = node.get(GRAPH);
         for (int nodeIndex = 0; nodeIndex < graphNode.size(); nodeIndex++) {
             handleChain(chain, graphNode.get(nodeIndex));

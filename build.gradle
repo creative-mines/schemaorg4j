@@ -19,5 +19,6 @@ dependencies {
     compile 'com.fasterxml.jackson.core:jackson-databind:2.9.9'
     compile 'com.squareup:javapoet:1.11.1'
     implementation 'org.slf4j:slf4j-api:1.7.26'
+    implementation 'org.slf4j:slf4j-simple:1.7.26'
 
 }

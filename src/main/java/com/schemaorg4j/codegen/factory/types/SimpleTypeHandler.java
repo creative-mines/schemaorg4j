@@ -24,6 +24,7 @@ public class SimpleTypeHandler implements TypeHandler {
             put(SchemaDataType.DATE.getId(), ClassName.get(DATATYPES_PACKAGE, "Date"));
             put(SchemaDataType.DATETIME.getId(), ClassName.get(DATATYPES_PACKAGE, "DateTime"));
             put(SchemaDataType.TIME.getId(), ClassName.get(DATATYPES_PACKAGE, "Time"));
+            put(SchemaDataType.URL.getId(), ClassName.get("java.lang", "String"));
         }};
     }
 

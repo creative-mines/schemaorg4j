@@ -1,6 +1,7 @@
 package com.schemaorg4j.codegen.factory;
 
 import static com.schemaorg4j.codegen.constants.Schema4JConstants.DOMAIN_PACKAGE;
+import static com.schemaorg4j.codegen.jsonld.Util.orLabelFromId;
 
 import com.schemaorg4j.codegen.domain.SchemaClass;
 import com.schemaorg4j.codegen.domain.SchemaGraph;
@@ -10,8 +11,12 @@ import com.squareup.javapoet.TypeSpec;
 import com.squareup.javapoet.TypeSpec.Builder;
 import java.util.stream.Collectors;
 import javax.lang.model.element.Modifier;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class InterfaceContributor implements BlueprintContributor {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(InterfaceContributor.class);
 
     private final SchemaGraph graph;
 
@@ -21,13 +26,24 @@ public class InterfaceContributor implements BlueprintContributor {
 
     @Override
     public void contribute(SchemaClass schemaClass, JavaPoetFileBlueprint blueprint) {
-        Builder builder = TypeSpec
-            .interfaceBuilder(ClassName.get(DOMAIN_PACKAGE, schemaClass.getLabel()));
+        try {
+            String label = orLabelFromId(schemaClass.getLabel(), schemaClass.getId());
+            if (label.matches("^[0-9].*")) {
+                label = "$" + label;
+            }
 
-        addMethods(builder, blueprint);
-        addSuperInterfaces(builder, schemaClass);
+            Builder builder = TypeSpec
+                .interfaceBuilder(ClassName.get(DOMAIN_PACKAGE, label));
 
-        blueprint.addType(builder.build());
+            addMethods(builder, blueprint);
+            addSuperInterfaces(builder, schemaClass);
+
+            blueprint.addType(builder.build());
+        } catch (IllegalArgumentException e) {
+            LOGGER.warn("Could not create interface '{}' (from {})", schemaClass.getLabel(),
+                schemaClass.getId());
+            LOGGER.debug("Original error", e);
+        }
     }
 
     private void addSuperInterfaces(Builder builder, SchemaClass schemaClass) {
@@ -42,11 +58,11 @@ public class InterfaceContributor implements BlueprintContributor {
 
     private void addMethods(Builder builder, JavaPoetFileBlueprint blueprint) {
         builder.addMethods(blueprint.getMethods().stream().map(methodSpec -> MethodSpec
-                .methodBuilder(methodSpec.name)
-                .addModifiers(Modifier.ABSTRACT, Modifier.PUBLIC)
-                .returns(methodSpec.returnType)
-                .addParameters(methodSpec.parameters)
-                .build()
+            .methodBuilder(methodSpec.name)
+            .addModifiers(Modifier.ABSTRACT, Modifier.PUBLIC)
+            .returns(methodSpec.returnType)
+            .addParameters(methodSpec.parameters)
+            .build()
         ).collect(Collectors.toList()));
     }
 }

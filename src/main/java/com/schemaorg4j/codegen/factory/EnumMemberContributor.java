@@ -3,6 +3,7 @@ package com.schemaorg4j.codegen.factory;
 import static com.schemaorg4j.codegen.constants.Schema4JConstants.DOMAIN_PACKAGE;
 import static com.schemaorg4j.codegen.constants.Schema4JConstants.ENUM_PACKAGE;
 import static com.schemaorg4j.codegen.constants.SchemaOrgConstants.ENUM_ID;
+import static com.schemaorg4j.codegen.jsonld.Util.orLabelFromId;
 
 import com.schemaorg4j.codegen.domain.SchemaClass;
 import com.schemaorg4j.codegen.domain.SchemaEnumMember;
@@ -14,9 +15,12 @@ import com.squareup.javapoet.TypeSpec.Builder;
 import java.util.ArrayList;
 import java.util.List;
 import javax.lang.model.element.Modifier;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class EnumMemberContributor implements BlueprintContributor {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(EnumMemberContributor.class);
     private final SchemaGraph graph;
     private List<TypeSpec> emittedTypes;
 
@@ -31,11 +35,21 @@ public class EnumMemberContributor implements BlueprintContributor {
             return;
         }
 
+        if (graph.getEnumMembers(schemaClass.getId()).size() < 1) {
+            LOGGER.warn("Enum {} had 0 members, skipping", schemaClass.getId());
+            return;
+        }
+
         ClassName typeName = ClassName.get(ENUM_PACKAGE, schemaClass.getLabel() + "EnumMembers");
 
         Builder enumBuilder = TypeSpec.enumBuilder(typeName).addModifiers(Modifier.PUBLIC);
         for (SchemaEnumMember member : graph.getEnumMembers(schemaClass.getId())) {
-            enumBuilder.addEnumConstant(member.getLabel());
+            try {
+                enumBuilder.addEnumConstant(orLabelFromId(member.getLabel(), member.getId()));
+            } catch (IllegalArgumentException e) {
+                LOGGER.warn("Could not add enum constant '{}' (from {})", member.getLabel(), member.getId());
+                LOGGER.debug("Original error", e);
+            }
         }
         emittedTypes.add(enumBuilder.build());
 

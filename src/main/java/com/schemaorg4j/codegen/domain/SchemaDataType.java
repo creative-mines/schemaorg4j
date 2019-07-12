@@ -9,6 +9,7 @@ import static com.schemaorg4j.codegen.constants.SchemaOrgConstants.INTEGER_ID;
 import static com.schemaorg4j.codegen.constants.SchemaOrgConstants.NUMBER_ID;
 import static com.schemaorg4j.codegen.constants.SchemaOrgConstants.TEXT_ID;
 import static com.schemaorg4j.codegen.constants.SchemaOrgConstants.TIME_ID;
+import static com.schemaorg4j.codegen.constants.SchemaOrgConstants.URL_ID;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,6 +30,7 @@ public class SchemaDataType {
     public static final SchemaDataType INTEGER = new SchemaDataType(INTEGER_ID, "Integer", "Integer");
     public static final SchemaDataType TEXT = new SchemaDataType(TEXT_ID, "String", "Text");
     public static final SchemaDataType TIME = new SchemaDataType(TIME_ID, DATATYPES_PACKAGE + ".Time", "Time");
+    public static final SchemaDataType URL = new SchemaDataType(URL_ID, "String", "URL");
 
     private static final List<SchemaDataType> LIST = new ArrayList<SchemaDataType>() {{
         add(BOOLEAN);
@@ -39,6 +41,7 @@ public class SchemaDataType {
         add(INTEGER);
         add(TEXT);
         add(TIME);
+        add(URL);
     }};
 
     public static Optional<SchemaDataType> findById(String id) {

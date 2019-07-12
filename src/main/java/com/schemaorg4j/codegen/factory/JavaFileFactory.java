@@ -1,12 +1,10 @@
 package com.schemaorg4j.codegen.factory;
 
-import com.schemaorg4j.codegen.domain.SchemaClass;
 import com.schemaorg4j.codegen.domain.SchemaGraph;
 import com.schemaorg4j.codegen.factory.types.CachingTypeFactory;
 import com.schemaorg4j.codegen.factory.types.SimpleTypeFactory;
 import com.schemaorg4j.codegen.factory.types.TypeFactory;
 import com.squareup.javapoet.JavaFile;
-import com.squareup.javapoet.TypeSpec;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;

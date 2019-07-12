@@ -8,8 +8,12 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class SchemaGraph {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(SchemaGraph.class);
 
     private Map<String, SchemaClass> classesById;
     private Map<String, Set<SchemaClass>> superClassById;
@@ -42,6 +46,7 @@ public class SchemaGraph {
             for (SchemaClass awaitingParent : waitingForSuperclassById.get(schemaClass.getId())) {
                 addToSuperClassById(awaitingParent.getId(), schemaClass);
             }
+            waitingForSuperclassById.remove(schemaClass.getId());
         }
 
         for (String id : schemaClass.getSubclassOfIds()) {
@@ -100,9 +105,10 @@ public class SchemaGraph {
         if (enumMembersByClassId.containsKey(schemaEnumMember.getEnumId())) {
             enumMembersByClassId.get(schemaEnumMember.getEnumId()).add(schemaEnumMember);
         } else {
-            enumMembersByClassId.put(schemaEnumMember.getEnumId(), new HashSet<SchemaEnumMember>() {{
-                add(schemaEnumMember);
-            }});
+            enumMembersByClassId
+                .put(schemaEnumMember.getEnumId(), new HashSet<SchemaEnumMember>() {{
+                    add(schemaEnumMember);
+                }});
         }
     }
 
@@ -116,16 +122,28 @@ public class SchemaGraph {
 
         waitingForSuperclassById.values().forEach(setOfClassesToRemove -> {
             setOfClassesToRemove.forEach(classToRemove -> {
-                removedClasses.add(classesById.remove(classToRemove.getId()));
+                SchemaClass schemaClass = classesById.remove(classToRemove.getId());
+                LOGGER.info("Removed {} from graph (waiting for superclass)", schemaClass.getId());
+                removedClasses.add(schemaClass);
             });
         });
 
         while (!removedClasses.isEmpty()) {
             SchemaClass parentClass = removedClasses.remove(0);
 
-            classesById.values().forEach(schemaClass -> {
+            if (parentClass == null) {
+                continue;
+            }
+
+            Set<SchemaClass> classes = new HashSet<>(classesById.values());
+
+            classes.forEach(schemaClass -> {
                 if (schemaClass.getSubclassOfIds().contains(parentClass.getId())) {
-                    removedClasses.add(classesById.remove(schemaClass.getId()));
+                    SchemaClass removedClass = classesById.remove(schemaClass.getId());
+
+                    LOGGER.info("Removed {} from graph (waiting for superclass)", schemaClass.getId());
+
+                    removedClasses.add(removedClass);
                 }
             });
         }
