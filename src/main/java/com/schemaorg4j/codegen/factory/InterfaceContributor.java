@@ -37,6 +37,7 @@ public class InterfaceContributor implements BlueprintContributor {
 
             addMethods(builder, blueprint);
             addSuperInterfaces(builder, schemaClass);
+            builder.addFields(blueprint.getLensFields());
 
             blueprint.addType(builder.build());
         } catch (IllegalArgumentException e) {
