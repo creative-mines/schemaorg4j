@@ -24,8 +24,14 @@ public class ImplementationContributor implements BlueprintContributor {
 
     @Override
     public void contribute(SchemaClass schemaClass, JavaPoetFileBlueprint blueprint) {
+
+        String label = schemaClass.getLabel() + "Impl";
+        if (schemaClass.getLabel().matches("^[0-9].*")) {
+            label = "$" + label;
+        }
+
         Builder builder = TypeSpec
-            .classBuilder(schemaClass.getLabel() + "Impl")
+            .classBuilder(label)
             .addModifiers(Modifier.PUBLIC)
             .addSuperinterface(ClassName.get(DOMAIN_PACKAGE, schemaClass.getLabel()));
 

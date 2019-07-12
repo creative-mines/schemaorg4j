@@ -1,5 +1,6 @@
 package com.schemaorg4j.codegen.factory.types;
 
+import static com.schemaorg4j.codegen.StringUtils.orLabelFromId;
 import static com.schemaorg4j.codegen.factory.types.MethodUtil.getGetter;
 import static com.schemaorg4j.codegen.factory.types.MethodUtil.getSetter;
 
@@ -42,9 +43,20 @@ public class InheritedFieldContributor implements BlueprintContributor {
                     return;
                 }
 
-                FieldSpec field = FieldSpec.builder(type, property.getLabel(), Modifier.PRIVATE)
-                    .build();
-                blueprint.addInheritedField(field);
+                String label = orLabelFromId(property.getLabel(), property.getId());
+
+                try {
+                    FieldSpec field = FieldSpec.builder(type, label, Modifier.PRIVATE)
+                        .build();
+                    blueprint.addInheritedField(field);
+                } catch (IllegalArgumentException e) {
+                    LOGGER.warn("Unable to add field '{}' (from {}), applying disambiguator", property.getLabel(), property.getId());
+                    LOGGER.debug("Original error", e);
+
+                    FieldSpec field = FieldSpec.builder(type, "$" + label, Modifier.PRIVATE)
+                        .build();
+                    blueprint.addInheritedField(field);
+                }
             });
 
             superclassIds.addAll(currentClass.getSubclassOfIds());
