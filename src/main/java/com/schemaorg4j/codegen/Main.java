@@ -1,14 +1,13 @@
 package com.schemaorg4j.codegen;
 
-import static com.schemaorg4j.codegen.constants.SchemaOrg4JConstants.DOMAIN_PACKAGE;
-
 import com.schemaorg4j.codegen.domain.SchemaGraph;
 import com.schemaorg4j.codegen.factory.JavaFileFactory;
 import com.schemaorg4j.codegen.jsonld.Util;
 import com.squareup.javapoet.JavaFile;
-import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Collection;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,11 +15,13 @@ import org.slf4j.LoggerFactory;
 public class Main {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(Main.class);
+    private static final String SOURCE_LOCATION = "src/main/java";
 
     public static void main(String[] arguments) throws IOException {
 
         Main main = new Main();
-        URL schemaDefinitionResource = main.getClass().getClassLoader().getResource("all-layers.jsonld");
+        URL schemaDefinitionResource = main.getClass().getClassLoader()
+            .getResource("all-layers.jsonld");
 
         if (schemaDefinitionResource == null) {
             LOGGER.error("schema file was not found, exiting");
@@ -31,16 +32,16 @@ public class Main {
             .readValue(schemaDefinitionResource, SchemaGraph.class);
 
         LOGGER.info("Generating {} classes", graph.getClasses().size());
-        JavaFileFactory factory = new JavaFileFactory(DOMAIN_PACKAGE);
+        JavaFileFactory factory = new JavaFileFactory();
         Collection<JavaFile> javaFiles = factory
             .buildJavaFiles(graph);
 
-        System.out.println(System.getProperty("user.dir"));
         javaFiles.forEach(file -> {
+            Path path = Paths.get(System.getProperty("user.dir"), SOURCE_LOCATION);
             try {
-                file.writeTo(new File("/home/adam/code/schemaorg4j/temp"));
+                file.writeTo(path);
             } catch (IOException e) {
-                LOGGER.error("SchemaOrg4JError while writing files");
+                LOGGER.error("Error writing file", e);
             }
         });
     }

@@ -33,7 +33,8 @@ public class InterfaceContributor implements BlueprintContributor {
             }
 
             Builder builder = TypeSpec
-                .interfaceBuilder(ClassName.get(DOMAIN_PACKAGE, label));
+                .interfaceBuilder(ClassName.get(DOMAIN_PACKAGE, label))
+                .addModifiers(Modifier.PUBLIC);
 
             addMethods(builder, blueprint);
             addSuperInterfaces(builder, schemaClass);

@@ -1,6 +1,7 @@
 package com.schemaorg4j.codegen.factory;
 
 import static com.schemaorg4j.codegen.StringUtils.capitalize;
+import static com.schemaorg4j.codegen.StringUtils.orLabelFromId;
 import static com.schemaorg4j.codegen.constants.SchemaOrg4JConstants.DOMAIN_PACKAGE;
 import static com.schemaorg4j.codegen.constants.SchemaOrg4JConstants.UTIL_PACKAGE;
 
@@ -37,6 +38,7 @@ public class LensContributor implements BlueprintContributor {
 
     private TypeName getType(SchemaClass schemaClass, FieldSpec fieldSpec) {
         return ParameterizedTypeName.get(ClassName.get(UTIL_PACKAGE, "Lens"),
-            ClassName.get(DOMAIN_PACKAGE, schemaClass.getLabel()), fieldSpec.type);
+            ClassName.get(DOMAIN_PACKAGE, schemaClass.getLabel()),
+            fieldSpec.type);
     }
 }

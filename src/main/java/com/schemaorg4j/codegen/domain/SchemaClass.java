@@ -1,5 +1,7 @@
 package com.schemaorg4j.codegen.domain;
 
+import static com.schemaorg4j.codegen.StringUtils.orLabelFromId;
+
 import java.util.Collections;
 import java.util.List;
 import java.util.Set;
@@ -36,6 +38,10 @@ public class SchemaClass {
     }
 
     public String getLabel() {
+        String label = orLabelFromId(this.label, id);
+        if (label.matches("^[0-9].*")) {
+            return "$" + label;
+        }
         return label;
     }
 

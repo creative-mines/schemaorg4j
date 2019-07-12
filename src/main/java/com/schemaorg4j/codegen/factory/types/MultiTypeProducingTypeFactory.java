@@ -9,12 +9,14 @@ import static com.schemaorg4j.codegen.factory.types.MethodUtil.getSetter;
 import com.schemaorg4j.codegen.domain.SchemaDataType;
 import com.schemaorg4j.codegen.domain.SchemaGraph;
 import com.schemaorg4j.codegen.domain.SchemaProperty;
+import com.schemaorg4j.codegen.domain.SchemaPropertyBuilder;
 import com.squareup.javapoet.ClassName;
 import com.squareup.javapoet.FieldSpec;
 import com.squareup.javapoet.TypeName;
 import com.squareup.javapoet.TypeSpec;
 import com.squareup.javapoet.TypeSpec.Builder;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 import javax.lang.model.element.Modifier;
@@ -23,7 +25,8 @@ import org.slf4j.LoggerFactory;
 
 public class MultiTypeProducingTypeFactory implements TypeFactory {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(MultiTypeProducingTypeFactory.class);
+    private static final Logger LOGGER = LoggerFactory
+        .getLogger(MultiTypeProducingTypeFactory.class);
 
     private final TypeFactory collaborator;
     private final List<TypeSpec> emittedTypes;
@@ -51,9 +54,26 @@ public class MultiTypeProducingTypeFactory implements TypeFactory {
 
         property.getRangeIncludesIds().stream().sorted().forEach(id -> {
             String variableName = decapitalize(orLabelFromId(null, id));
-            String classLabel = graph.getClass(id).getLabel();
 
-            FieldSpec field = getFieldSpec(classLabel, variableName);
+            FieldSpec field = null;
+            if (graph.getClass(id) != null) {
+                String classLabel = graph.getClass(id).getLabel();
+                field = getFieldSpec(classLabel, variableName);
+            } else {
+                SchemaDataType dataType = SchemaDataType.findById(id).get();
+                TypeName type = new SimpleTypeHandler().handle(new SchemaPropertyBuilder()
+                    .setRangeIncludesIds(Collections.singleton(dataType.getId()))
+                    .createSchemaProperty());
+
+                String label = decapitalize(dataType.getLabel());
+                try {
+                    field = FieldSpec.builder(type, label, Modifier.PRIVATE).build();
+                } catch (IllegalArgumentException e) {
+                    LOGGER.warn("Invalid name generated for field {}, disambiguating", label);
+                    LOGGER.debug("Original error", e);
+                    field = FieldSpec.builder(type, "$" + label, Modifier.PRIVATE).build();
+                }
+            }
 
             builder.addField(field);
             builder.addMethod(getSetter(field));
@@ -71,7 +91,8 @@ public class MultiTypeProducingTypeFactory implements TypeFactory {
         } catch (IllegalArgumentException e) {
             LOGGER.warn("Variable name {} was invalid, applying disambiguator", variableName);
             return FieldSpec
-                .builder(ClassName.get(DOMAIN_PACKAGE, classLabel), "$" + variableName, Modifier.PRIVATE)
+                .builder(ClassName.get(DOMAIN_PACKAGE, classLabel), "$" + variableName,
+                    Modifier.PRIVATE)
                 .build();
         }
     }
@@ -85,7 +106,8 @@ public class MultiTypeProducingTypeFactory implements TypeFactory {
             return property
                 .getRangeIncludesIds()
                 .stream()
-                .allMatch(id -> graph.getClass(id) != null);
+                .allMatch(
+                    id -> graph.getClass(id) != null || SchemaDataType.findById(id).isPresent());
         }
 
         return false;
