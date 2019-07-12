@@ -1,9 +1,8 @@
 package com.schemaorg4j.codegen.factory;
 
-import static com.schemaorg4j.codegen.constants.Schema4JConstants.DOMAIN_PACKAGE;
+import static com.schemaorg4j.codegen.StringUtils.orLabelFromId;
 import static com.schemaorg4j.codegen.constants.Schema4JConstants.ENUM_PACKAGE;
 import static com.schemaorg4j.codegen.constants.SchemaOrgConstants.ENUM_ID;
-import static com.schemaorg4j.codegen.jsonld.Util.orLabelFromId;
 
 import com.schemaorg4j.codegen.domain.SchemaClass;
 import com.schemaorg4j.codegen.domain.SchemaEnumMember;
@@ -47,7 +46,8 @@ public class EnumMemberContributor implements BlueprintContributor {
             try {
                 enumBuilder.addEnumConstant(orLabelFromId(member.getLabel(), member.getId()));
             } catch (IllegalArgumentException e) {
-                LOGGER.warn("Could not add enum constant '{}' (from {})", member.getLabel(), member.getId());
+                LOGGER.warn("Could not add enum constant '{}' (from {})", member.getLabel(),
+                    member.getId());
                 LOGGER.debug("Original error", e);
             }
         }

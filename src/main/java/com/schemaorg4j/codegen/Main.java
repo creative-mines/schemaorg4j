@@ -36,7 +36,6 @@ public class Main {
             .buildJavaFiles(graph);
 
         System.out.println(System.getProperty("user.dir"));
-        /*
         javaFiles.forEach(file -> {
             try {
                 file.writeTo(new File("/home/adam/code/schemaorg4j/temp"));
@@ -44,6 +43,5 @@ public class Main {
                 LOGGER.error("Error while writing files");
             }
         });
-        */
     }
 }

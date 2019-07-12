@@ -83,11 +83,4 @@ public class Util {
         return result;
     }
 
-    public static String orLabelFromId(String label, String id) {
-        if (label == null || label.isEmpty()) {
-            return id.substring(id.lastIndexOf("/") + 1);
-        }
-        return label;
-    }
-
 }

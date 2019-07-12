@@ -1,9 +1,10 @@
 package com.schemaorg4j.codegen.factory;
 
+import static com.schemaorg4j.codegen.StringUtils.orLabelFromId;
+
 import com.schemaorg4j.codegen.domain.SchemaClass;
 import com.schemaorg4j.codegen.domain.SchemaGraph;
 import com.schemaorg4j.codegen.factory.types.TypeFactory;
-import com.schemaorg4j.codegen.jsonld.Util;
 import com.squareup.javapoet.FieldSpec;
 import com.squareup.javapoet.TypeName;
 import javax.lang.model.element.Modifier;
@@ -31,7 +32,7 @@ public class FieldContributor implements BlueprintContributor {
 
                 if (type != null) {
                     FieldSpec spec = FieldSpec
-                        .builder(type, Util.orLabelFromId(property.getLabel(), property.getId()),
+                        .builder(type, orLabelFromId(property.getLabel(), property.getId()),
                             Modifier.PRIVATE)
                         .build();
                     blueprint.addField(spec);
