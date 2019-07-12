@@ -1,6 +1,6 @@
 package com.schemaorg4j.codegen;
 
-import static com.schemaorg4j.codegen.constants.Schema4JConstants.DOMAIN_PACKAGE;
+import static com.schemaorg4j.codegen.constants.SchemaOrg4JConstants.DOMAIN_PACKAGE;
 
 import com.schemaorg4j.codegen.domain.SchemaGraph;
 import com.schemaorg4j.codegen.factory.JavaFileFactory;
@@ -40,7 +40,7 @@ public class Main {
             try {
                 file.writeTo(new File("/home/adam/code/schemaorg4j/temp"));
             } catch (IOException e) {
-                LOGGER.error("Error while writing files");
+                LOGGER.error("SchemaOrg4JError while writing files");
             }
         });
     }

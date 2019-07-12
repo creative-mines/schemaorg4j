@@ -61,4 +61,9 @@ public class InterfaceContributorTest extends ContributorTest {
         assertEquals(blueprint.getTypes().get(0).superinterfaces.get(0).toString(),
             "com.schemaorg4j.domain.CreativeWork");
     }
+
+    @Test
+    public void interfaceContainsALens() {
+
+    }
 }

@@ -1,6 +1,6 @@
 package com.schemaorg4j.codegen.factory.types;
 
-import static com.schemaorg4j.codegen.constants.Schema4JConstants.DOMAIN_PACKAGE;
+import static com.schemaorg4j.codegen.constants.SchemaOrg4JConstants.DOMAIN_PACKAGE;
 
 import com.schemaorg4j.codegen.domain.SchemaGraph;
 import com.schemaorg4j.codegen.domain.SchemaProperty;

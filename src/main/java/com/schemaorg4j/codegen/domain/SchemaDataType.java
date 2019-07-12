@@ -1,6 +1,6 @@
 package com.schemaorg4j.codegen.domain;
 
-import static com.schemaorg4j.codegen.constants.Schema4JConstants.DATATYPES_PACKAGE;
+import static com.schemaorg4j.codegen.constants.SchemaOrg4JConstants.DATATYPES_PACKAGE;
 import static com.schemaorg4j.codegen.constants.SchemaOrgConstants.BOOLEAN_ID;
 import static com.schemaorg4j.codegen.constants.SchemaOrgConstants.DATETIME_ID;
 import static com.schemaorg4j.codegen.constants.SchemaOrgConstants.DATE_ID;

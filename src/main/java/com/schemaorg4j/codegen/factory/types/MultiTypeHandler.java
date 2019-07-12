@@ -1,6 +1,6 @@
 package com.schemaorg4j.codegen.factory.types;
 
-import static com.schemaorg4j.codegen.constants.Schema4JConstants.COMBO_TYPE_PACKAGE;
+import static com.schemaorg4j.codegen.constants.SchemaOrg4JConstants.COMBO_TYPE_PACKAGE;
 
 import com.schemaorg4j.codegen.domain.SchemaDataType;
 import com.schemaorg4j.codegen.domain.SchemaGraph;

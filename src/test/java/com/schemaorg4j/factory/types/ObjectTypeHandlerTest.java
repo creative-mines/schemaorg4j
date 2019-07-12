@@ -1,6 +1,6 @@
 package com.schemaorg4j.factory.types;
 
-import static com.schemaorg4j.codegen.constants.Schema4JConstants.DOMAIN_PACKAGE;
+import static com.schemaorg4j.codegen.constants.SchemaOrg4JConstants.DOMAIN_PACKAGE;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 

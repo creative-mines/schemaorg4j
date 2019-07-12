@@ -1,6 +1,6 @@
 package com.schemaorg4j.codegen.factory;
 
-import static com.schemaorg4j.codegen.constants.Schema4JConstants.DOMAIN_PACKAGE;
+import static com.schemaorg4j.codegen.constants.SchemaOrg4JConstants.DOMAIN_PACKAGE;
 import static com.schemaorg4j.codegen.factory.types.MethodUtil.getGetter;
 import static com.schemaorg4j.codegen.factory.types.MethodUtil.getSetter;
 

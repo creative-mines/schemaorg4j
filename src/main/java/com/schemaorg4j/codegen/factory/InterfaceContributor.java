@@ -1,7 +1,7 @@
 package com.schemaorg4j.codegen.factory;
 
 import static com.schemaorg4j.codegen.StringUtils.orLabelFromId;
-import static com.schemaorg4j.codegen.constants.Schema4JConstants.DOMAIN_PACKAGE;
+import static com.schemaorg4j.codegen.constants.SchemaOrg4JConstants.DOMAIN_PACKAGE;
 
 import com.schemaorg4j.codegen.domain.SchemaClass;
 import com.schemaorg4j.codegen.domain.SchemaGraph;
