@@ -24,4 +24,5 @@ public class SchemaOrgConstants {
     public static final String TIME_ID = "http://schema.org/Time";
     public static final String ENUM_ID = "http://schema.org/Enumeration";
     public static final String URL_ID = "http://schema.org/URL";
+    public static final String THING_ID = "http://schema.org/Thing";
 }

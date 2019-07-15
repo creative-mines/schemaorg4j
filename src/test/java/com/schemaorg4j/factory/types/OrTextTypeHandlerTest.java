@@ -44,4 +44,15 @@ public class OrTextTypeHandlerTest extends TypeFactoryTest {
             "com.schemaorg4j.util.OrText<java.lang.Integer>");
     }
 
+    @Test
+    public void handlesOrUrlAsSimpleStringDataType() {
+        SchemaProperty schemaProperty = schemaProperty(new HashSet<String>() {{
+            add(SchemaDataType.URL.getId());
+            add(SchemaDataType.TEXT.getId());
+        }});
+
+        SchemaGraph graph = schemaGraph(schemaProperty, "Book");
+        assertEquals(new OrTextTypeHandler(graph).handle(schemaProperty).toString(),
+            "java.lang.String");
+    }
 }

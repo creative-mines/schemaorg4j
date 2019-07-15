@@ -29,10 +29,11 @@ public class JavaFileFactory {
         ArrayList<BlueprintContributor> chain = new ArrayList<BlueprintContributor>() {{
             add(new FieldContributor(graph, typeFactory));
             add(enumMemberContributor);
+            add(new ErrorObjectContributor());
+            add(new AdditionalDataObjectContributor());
             add(new MethodContributor(graph));
             add(new LensContributor());
             add(new InterfaceContributor(graph));
-            //add(new ErrorObjectContributor());
             add(new InheritedFieldContributor(graph, typeFactory));
             add(new ImplementationContributor(graph));
         }};

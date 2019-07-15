@@ -10,10 +10,18 @@ import org.junit.Test;
 public class ErrorObjectContributorTest {
 
     @Test
-    public void shouldProvideFieldForErrorObject() {
+    public void shouldProvideFieldForErrorObjectOnThing() {
         JavaPoetFileBlueprint blueprint = new JavaPoetFileBlueprint();
         new ErrorObjectContributor().contribute(new SchemaClassBuilder().setId("http://schema.org/Thing").createSchemaClass(), blueprint);
-        assertEquals(blueprint.getFields().get(0).name, "error");
+        assertEquals(blueprint.getFields().get(0).name, "schemaOrg4JError");
         assertEquals(blueprint.getFields().get(0).type.toString(), "com.schemaorg4j.domain.error.SchemaOrg4JError");
+    }
+
+    @Test
+    public void shouldProvideFieldForErrorObjectOnNonThing() {
+        JavaPoetFileBlueprint blueprint = new JavaPoetFileBlueprint();
+        new ErrorObjectContributor().contribute(new SchemaClassBuilder().setId("http://schema.org/Book").createSchemaClass(), blueprint);
+        assertEquals(blueprint.getInheritedFields().get(0).name, "schemaOrg4JError");
+        assertEquals(blueprint.getInheritedFields().get(0).type.toString(), "com.schemaorg4j.domain.error.SchemaOrg4JError");
     }
 }

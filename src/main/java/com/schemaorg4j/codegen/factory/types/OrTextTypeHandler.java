@@ -36,6 +36,11 @@ public class OrTextTypeHandler extends DependsOnEmbeddedTypeResolver implements 
     @Override
     public TypeName handle(SchemaProperty property) {
         String nonTextId = getNonTextId(property);
+
+        if (nonTextId.equals(SchemaDataType.URL.getId())) {
+            return ClassName.get("java.lang",  "String");
+        }
+
         return ParameterizedTypeName.get(OR_TYPE, resolveEmbeddedType(nonTextId));
     }
 

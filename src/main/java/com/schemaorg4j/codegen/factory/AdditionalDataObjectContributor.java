@@ -9,12 +9,12 @@ import com.squareup.javapoet.FieldSpec;
 import java.util.Objects;
 import javax.lang.model.element.Modifier;
 
-public class ErrorObjectContributor implements BlueprintContributor {
+public class AdditionalDataObjectContributor implements BlueprintContributor {
 
     @Override
     public void contribute(SchemaClass schemaClass, JavaPoetFileBlueprint blueprint) {
         FieldSpec fieldSpec = FieldSpec.builder(
-            ClassName.get(DOMAIN_PACKAGE + ".error", "SchemaOrg4JError"), "schemaOrg4JError",
+            ClassName.get(DOMAIN_PACKAGE + ".datatypes", "SchemaOrg4JAdditionalData"), "schemaOrg4JAdditionalData",
             Modifier.PRIVATE)
             .build();
         if (Objects.equals(schemaClass.getId(), THING_ID)) {
