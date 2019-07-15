@@ -12,9 +12,13 @@ import com.schemaorg4j.codegen.domain.SchemaDataType;
 import com.schemaorg4j.codegen.domain.SchemaEnumMember;
 import com.schemaorg4j.codegen.domain.SchemaGraph;
 import com.schemaorg4j.codegen.domain.SchemaProperty;
+import com.squareup.javapoet.ClassName;
+import com.squareup.javapoet.FieldSpec;
+import com.squareup.javapoet.TypeSpec;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
+import javax.lang.model.element.Modifier;
 
 /**
  * Package private Util class specifically for json deserializers
@@ -81,6 +85,10 @@ public class Util {
             result.add(node.get(i).get(ID).asText());
         }
         return result;
+    }
+
+    public static FieldSpec generateNextField(String packageName, String className) {
+        return FieldSpec.builder(ClassName.get(packageName, className), "next" + className, Modifier.PRIVATE).build();
     }
 
 }

@@ -31,6 +31,7 @@ public class JavaFileFactory {
             add(enumMemberContributor);
             add(new ErrorObjectContributor());
             add(new AdditionalDataObjectContributor());
+            add(new NextFieldContributor());
             add(new MethodContributor(graph));
             add(new LensContributor());
             add(new InterfaceContributor(graph));

@@ -1,6 +1,7 @@
 package com.schemaorg4j.codegen.factory.types;
 
 import static com.schemaorg4j.codegen.StringUtils.orLabelFromId;
+import static com.schemaorg4j.codegen.constants.SchemaOrg4JConstants.DOMAIN_PACKAGE;
 import static com.schemaorg4j.codegen.constants.SchemaOrg4JConstants.ENUM_PACKAGE;
 import static com.schemaorg4j.codegen.constants.SchemaOrgConstants.ENUM_ID;
 import static com.schemaorg4j.codegen.factory.types.MethodUtil.getGetter;
@@ -10,6 +11,7 @@ import com.schemaorg4j.codegen.domain.SchemaClass;
 import com.schemaorg4j.codegen.domain.SchemaGraph;
 import com.schemaorg4j.codegen.factory.BlueprintContributor;
 import com.schemaorg4j.codegen.factory.JavaPoetFileBlueprint;
+import com.schemaorg4j.codegen.jsonld.Util;
 import com.squareup.javapoet.ClassName;
 import com.squareup.javapoet.FieldSpec;
 import com.squareup.javapoet.TypeName;
@@ -46,6 +48,7 @@ public class InheritedFieldContributor implements BlueprintContributor {
 
             getInheritedFieldSpec(currentId).forEach(blueprint::addInheritedField);
             getInheritedEnumFields(currentId).ifPresent(blueprint::addInheritedField);
+            blueprint.addInheritedField(Util.generateNextField(DOMAIN_PACKAGE, currentClass.getLabel()));
 
             superclassIds.addAll(currentClass.getSubclassOfIds());
         }

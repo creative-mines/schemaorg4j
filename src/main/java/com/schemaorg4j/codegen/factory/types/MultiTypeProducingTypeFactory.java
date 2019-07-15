@@ -2,6 +2,7 @@ package com.schemaorg4j.codegen.factory.types;
 
 import static com.schemaorg4j.codegen.StringUtils.decapitalize;
 import static com.schemaorg4j.codegen.StringUtils.orLabelFromId;
+import static com.schemaorg4j.codegen.constants.SchemaOrg4JConstants.COMBO_TYPE_PACKAGE;
 import static com.schemaorg4j.codegen.constants.SchemaOrg4JConstants.DOMAIN_PACKAGE;
 import static com.schemaorg4j.codegen.factory.types.MethodUtil.getGetter;
 import static com.schemaorg4j.codegen.factory.types.MethodUtil.getSetter;
@@ -10,6 +11,7 @@ import com.schemaorg4j.codegen.domain.SchemaDataType;
 import com.schemaorg4j.codegen.domain.SchemaGraph;
 import com.schemaorg4j.codegen.domain.SchemaProperty;
 import com.schemaorg4j.codegen.domain.SchemaPropertyBuilder;
+import com.schemaorg4j.codegen.jsonld.Util;
 import com.squareup.javapoet.ClassName;
 import com.squareup.javapoet.FieldSpec;
 import com.squareup.javapoet.TypeName;
@@ -48,8 +50,10 @@ public class MultiTypeProducingTypeFactory implements TypeFactory {
     }
 
     private void emitMultiType(SchemaProperty property, TypeName name) {
+        String className = ClassName.bestGuess(name.toString()).simpleName();
+
         Builder builder = TypeSpec
-            .classBuilder(ClassName.bestGuess(name.toString()).simpleName())
+            .classBuilder(className)
             .addModifiers(Modifier.PUBLIC);
 
         property.getRangeIncludesIds().stream().sorted().forEach(id -> {
@@ -79,6 +83,11 @@ public class MultiTypeProducingTypeFactory implements TypeFactory {
             builder.addMethod(getSetter(field));
             builder.addMethod(getGetter(field));
         });
+
+        FieldSpec nextField = Util.generateNextField(COMBO_TYPE_PACKAGE, className);
+        builder.addField(nextField);
+        builder.addMethod(getSetter(nextField));
+        builder.addMethod(getGetter(nextField));
 
         emittedTypes.add(builder.build());
     }
