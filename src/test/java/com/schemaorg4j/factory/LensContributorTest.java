@@ -27,7 +27,7 @@ public class LensContributorTest {
         JavaPoetFileBlueprint blueprint = blueprint();
         new LensContributor().contribute(schemaClass(), blueprint);
         assertEquals(findField(blueprint.getLensFields(), "Author").initializer.toString(),
-            "new Lens<>(Book::getAuthor, (c, fieldValue) -> { c.setAuthor(fieldValue); return c; })");
+            "new Lens<>(c -> c.getAuthor(), (c, fieldValue) -> { c.setAuthor(fieldValue); return c; })");
     }
 
     private FieldSpec findField(List<FieldSpec> fields, String name) {

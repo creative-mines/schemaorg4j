@@ -40,7 +40,9 @@ public class JavaPoetFileBlueprint {
     }
 
     public void addInheritedField(FieldSpec field) {
-        this.inheritedFields.add(field);
+        if (!this.fields.contains(field) && !this.inheritedFields.contains(field)) {
+            this.inheritedFields.add(field);
+        }
     }
 
     public void addLensField(FieldSpec field) {

@@ -82,7 +82,7 @@ public class SchemaGraph {
     }
 
     public Set<SchemaClass> getSuperclasses(String classId) {
-        return superClassById.getOrDefault(classId, null);
+        return superClassById.getOrDefault(classId, Collections.emptySet());
     }
 
     public void addProperty(SchemaProperty property) {

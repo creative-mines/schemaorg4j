@@ -135,3 +135,6 @@ fabric.properties
 
 # End of https://www.gitignore.io/api/jetbrains
 
+src/main/java/com/schemaorg4j/domain/*.java
+src/main/java/com/schemaorg4j/domain/combo
+src/main/java/com/schemaorg4j/domain/enums

@@ -34,7 +34,7 @@ public class EnumMemberContributor implements BlueprintContributor {
             return;
         }
 
-        if (graph.getEnumMembers(schemaClass.getId()).size() < 1) {
+        if (graph.getEnumMembers(schemaClass.getId()).isEmpty()) {
             LOGGER.warn("Enum {} had 0 members, skipping", schemaClass.getId());
             return;
         }

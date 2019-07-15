@@ -31,8 +31,8 @@ public class LensContributor implements BlueprintContributor {
 
     private CodeBlock getInitializer(SchemaClass schemaClass, FieldSpec fieldSpec) {
         return CodeBlock.builder()
-            .add("new Lens<>($N::get$N, (c, fieldValue) -> { c.set$N(fieldValue); return c; })",
-                schemaClass.getLabel(), capitalize(fieldSpec.name), capitalize(fieldSpec.name))
+            .add("new Lens<>(c -> c.get$N(), (c, fieldValue) -> { c.set$N(fieldValue); return c; })",
+                capitalize(fieldSpec.name), capitalize(fieldSpec.name))
             .build();
     }
 
