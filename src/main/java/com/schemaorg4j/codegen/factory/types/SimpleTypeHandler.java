@@ -1,7 +1,5 @@
 package com.schemaorg4j.codegen.factory.types;
 
-import static com.schemaorg4j.codegen.constants.SchemaOrg4JConstants.DATATYPES_PACKAGE;
-
 import com.schemaorg4j.codegen.domain.SchemaDataType;
 import com.schemaorg4j.codegen.domain.SchemaProperty;
 import com.squareup.javapoet.ClassName;
@@ -21,9 +19,9 @@ public class SimpleTypeHandler implements TypeHandler {
             put(SchemaDataType.FLOAT.getId(), TypeName.FLOAT.box());
             put(SchemaDataType.INTEGER.getId(), TypeName.INT.box());
             put(SchemaDataType.TEXT.getId(), ClassName.get("java.lang", "String"));
-            put(SchemaDataType.DATE.getId(), ClassName.get("java.util", "Date"));
-            put(SchemaDataType.DATETIME.getId(), ClassName.get("java.util", "Date"));
-            put(SchemaDataType.TIME.getId(), ClassName.get(DATATYPES_PACKAGE, "Time"));
+            put(SchemaDataType.DATE.getId(), ClassName.get("java.time", "LocalDate"));
+            put(SchemaDataType.DATETIME.getId(), ClassName.get("java.time", "ZonedDateTime"));
+            put(SchemaDataType.TIME.getId(), ClassName.get("java.time", "LocalTime"));
             put(SchemaDataType.URL.getId(), ClassName.get("java.lang", "String"));
         }};
     }
@@ -43,7 +41,8 @@ public class SimpleTypeHandler implements TypeHandler {
             return ids.get(first.get());
         }
 
-        throw new UnsupportedOperationException("Should not have handled property " + property.getId());
+        throw new UnsupportedOperationException(
+            "Should not have handled property " + property.getId());
     }
 
     private Optional<String> getFirstType(SchemaProperty property) {

@@ -23,13 +23,13 @@ public class SchemaDataType {
     private final String label;
 
     public static final SchemaDataType BOOLEAN = new SchemaDataType(BOOLEAN_ID, "Boolean", "Boolean");
-    public static final SchemaDataType DATE = new SchemaDataType(DATE_ID, "Date", "Date");
-    public static final SchemaDataType DATETIME = new SchemaDataType(DATETIME_ID, "Date", "DateTime");
+    public static final SchemaDataType DATE = new SchemaDataType(DATE_ID, "LocalDate", "Date");
+    public static final SchemaDataType DATETIME = new SchemaDataType(DATETIME_ID, "ZonedDateTime", "DateTime");
     public static final SchemaDataType NUMBER = new SchemaDataType(NUMBER_ID, "Float", "Number");
     public static final SchemaDataType FLOAT = new SchemaDataType(FLOAT_ID, "Float", "Float");
     public static final SchemaDataType INTEGER = new SchemaDataType(INTEGER_ID, "Integer", "Integer");
     public static final SchemaDataType TEXT = new SchemaDataType(TEXT_ID, "String", "Text");
-    public static final SchemaDataType TIME = new SchemaDataType(TIME_ID, DATATYPES_PACKAGE + ".Time", "Time");
+    public static final SchemaDataType TIME = new SchemaDataType(TIME_ID, "LocalTime", "Time");
     public static final SchemaDataType URL = new SchemaDataType(URL_ID, "String", "URL");
 
     private static final List<SchemaDataType> LIST = new ArrayList<SchemaDataType>() {{
