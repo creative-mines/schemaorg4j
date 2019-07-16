@@ -42,12 +42,12 @@ public class MultiTypeProducingTypeFactory implements TypeFactory {
     }
 
     @Override
-    public TypeName build(SchemaProperty property) {
-        TypeName name = collaborator.build(property);
+    public FieldDeclarationRequirement build(SchemaProperty property) {
+        FieldDeclarationRequirement requirement = collaborator.build(property);
         if (mustBeMultiType(property)) {
-            emitMultiType(property, name);
+            emitMultiType(property, requirement.getTypeName());
         }
-        return name;
+        return requirement;
     }
 
     private void emitMultiType(SchemaProperty property, TypeName name) {
@@ -66,17 +66,19 @@ public class MultiTypeProducingTypeFactory implements TypeFactory {
                 field = getFieldSpec(classLabel, variableName);
             } else {
                 SchemaDataType dataType = SchemaDataType.findById(id).get();
-                TypeName type = new SimpleTypeHandler().handle(new SchemaPropertyBuilder()
-                    .setRangeIncludesIds(Collections.singleton(dataType.getId()))
-                    .createSchemaProperty());
+                FieldDeclarationRequirement type = new SimpleTypeHandler()
+                    .handle(new SchemaPropertyBuilder()
+                        .setRangeIncludesIds(Collections.singleton(dataType.getId()))
+                        .createSchemaProperty());
 
                 String label = decapitalize(dataType.getLabel());
                 try {
-                    field = FieldSpec.builder(type, label, Modifier.PRIVATE).build();
+                    field = FieldSpec.builder(type.getTypeName(), label, Modifier.PRIVATE).build();
                 } catch (IllegalArgumentException e) {
                     LOGGER.warn("Invalid name generated for field {}, disambiguating", label);
                     LOGGER.debug("Original error", e);
-                    field = FieldSpec.builder(type, "$" + label, Modifier.PRIVATE).build();
+                    field = FieldSpec.builder(type.getTypeName(), "$" + label, Modifier.PRIVATE)
+                        .build();
                 }
             }
 
@@ -112,7 +114,8 @@ public class MultiTypeProducingTypeFactory implements TypeFactory {
     private boolean mustBeMultiType(SchemaProperty property) {
         boolean couldBeMultiType = property.getRangeIncludesIds().size() > 1 && (
             property.getRangeIncludesIds().size() > 2 || property.getRangeIncludesIds().stream()
-                .noneMatch(id -> Objects.equals(id, SchemaDataType.TEXT.getId())));
+                .noneMatch(id -> Objects.equals(id, SchemaDataType.TEXT.getId()) || Objects
+                    .equals(id, SchemaDataType.URL.getId())));
 
         if (couldBeMultiType) {
             return property

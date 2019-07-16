@@ -4,6 +4,7 @@ import static com.schemaorg4j.codegen.StringUtils.orLabelFromId;
 
 import com.schemaorg4j.codegen.domain.SchemaClass;
 import com.schemaorg4j.codegen.domain.SchemaGraph;
+import com.schemaorg4j.codegen.factory.types.FieldDeclarationRequirement;
 import com.schemaorg4j.codegen.factory.types.TypeFactory;
 import com.squareup.javapoet.FieldSpec;
 import com.squareup.javapoet.TypeName;
@@ -25,13 +26,14 @@ public class FieldContributor implements BlueprintContributor {
     @Override
     public void contribute(SchemaClass schemaClass, JavaPoetFileBlueprint blueprint) {
         graph.getProperties(schemaClass.getId()).forEach(property -> {
-            TypeName type = typeFactory.build(property);
+            FieldDeclarationRequirement type = typeFactory.build(property);
 
             try {
                 if (type != null) {
-                    FieldSpec spec = FieldSpec.builder(type,
-                        orLabelFromId(property.getLabel(), property.getId()),
-                        Modifier.PRIVATE).build();
+                    FieldSpec spec = FieldSpec
+                        .builder(type.getTypeName(),
+                            orLabelFromId(property.getLabel(), property.getId()),
+                            Modifier.PRIVATE).addAnnotations(type.getFieldAnnotations()).build();
                     blueprint.addField(spec);
                 } else {
                     LOGGER.warn("Could not determine type for field {} on {}, skipping",

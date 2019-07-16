@@ -22,7 +22,8 @@ public class MethodUtil {
         return MethodSpec
             .methodBuilder("set" + capitalize(fieldSpec.name))
             .addModifiers(Modifier.PUBLIC)
-            .addParameter(ParameterSpec.builder(fieldSpec.type, fieldSpec.name).build())
+            .addParameter(ParameterSpec.builder(fieldSpec.type, fieldSpec.name)
+                .addAnnotations(fieldSpec.annotations).build())
             .addStatement("this.$N = $N", fieldSpec.name, fieldSpec.name)
             .build();
     }

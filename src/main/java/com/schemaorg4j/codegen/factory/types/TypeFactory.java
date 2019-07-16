@@ -5,6 +5,6 @@ import com.squareup.javapoet.TypeName;
 
 public interface TypeFactory {
 
-    TypeName build(SchemaProperty property);
+    FieldDeclarationRequirement build(SchemaProperty property);
 
 }

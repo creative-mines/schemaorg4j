@@ -23,11 +23,11 @@ public class ObjectTypeHandler implements TypeHandler {
     }
 
     @Override
-    public TypeName handle(SchemaProperty property) {
+    public FieldDeclarationRequirement handle(SchemaProperty property) {
         Optional<String> only = property.getRangeIncludesIds().stream().findFirst();
         return only.map(typeId -> {
             String className = graph.getClass(typeId).getLabel();
-            return ClassName.get(DOMAIN_PACKAGE, className);
+            return new FieldDeclarationRequirement(ClassName.get(DOMAIN_PACKAGE, className));
         }).orElseThrow(() ->
             new UnsupportedOperationException("Should not have handled " + property.getId()));
     }

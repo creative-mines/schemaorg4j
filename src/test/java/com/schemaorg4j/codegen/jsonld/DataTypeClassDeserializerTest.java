@@ -37,7 +37,7 @@ public class DataTypeClassDeserializerTest extends DeserializerTest {
 
         SchemaDataType dt = objectMapper().readValue(json, SchemaDataType.class);
         assertEquals(dt.getId(), "http://schema.org/Date");
-        assertEquals(dt.getJavaDataType(), "com.schemaorg4j.domain.datatypes.Date");
+        assertEquals(dt.getJavaDataType(), "LocalDate");
 
     }
 
@@ -53,7 +53,7 @@ public class DataTypeClassDeserializerTest extends DeserializerTest {
 
         SchemaDataType dt = objectMapper().readValue(json, SchemaDataType.class);
         assertEquals(dt.getId(), "http://schema.org/DateTime");
-        assertEquals(dt.getJavaDataType(), "com.schemaorg4j.domain.datatypes.DateTime");
+        assertEquals(dt.getJavaDataType(), "ZonedDateTime");
 
     }
 
@@ -133,7 +133,7 @@ public class DataTypeClassDeserializerTest extends DeserializerTest {
 
         SchemaDataType dt = objectMapper().readValue(json, SchemaDataType.class);
         assertEquals(dt.getId(), "http://schema.org/Time");
-        assertEquals(dt.getJavaDataType(), "com.schemaorg4j.domain.datatypes.Time");
+        assertEquals(dt.getJavaDataType(), "LocalTime");
 
     }
 }

@@ -6,11 +6,12 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 @Retention(RetentionPolicy.RUNTIME)
-@Target(ElementType.TYPE)
-public @interface Schema4JComboClass {
+@Target({ElementType.FIELD, ElementType.PARAMETER})
+public @interface SchemaOrg4JOrType {
+
     /**
-     * Possible types that this combo class can represent
+     * Class repesenting the value type of this OrText entry
      * @return
      */
-    Class<?>[] value() default {};
+    Class<?> value();
 }

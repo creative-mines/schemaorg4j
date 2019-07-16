@@ -22,7 +22,7 @@ public class SimpleTypeFactory implements TypeFactory {
         }};
     }
 
-    public TypeName build(SchemaProperty property) {
+    public FieldDeclarationRequirement build(SchemaProperty property) {
         for (TypeHandler handler : chain) {
             if (handler.canHandle(property)) {
                 return handler.handle(property);

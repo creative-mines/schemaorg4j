@@ -22,6 +22,6 @@ public class ObjectTypeHandlerTest extends TypeFactoryTest {
     public void handlesObjectTypesCorrectly() {
         SchemaProperty schemaProperty = schemaProperty("http://schema.org/Book");
         SchemaGraph graph = schemaGraph(schemaProperty, "Book");
-        assertEquals(new ObjectTypeHandler(graph).handle(schemaProperty).toString(), DOMAIN_PACKAGE + ".Book");
+        assertEquals(new ObjectTypeHandler(graph).handle(schemaProperty).getTypeName().toString(), DOMAIN_PACKAGE + ".Book");
     }
 }

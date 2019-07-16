@@ -11,49 +11,49 @@ public class SimpleTypeHandlerTest extends TypeFactoryTest {
     @Test
     public void booleanTypeIsHandled() {
         assertEquals(
-            new SimpleTypeHandler().handle(schemaProperty(SchemaDataType.BOOLEAN)).toString(),
+            new SimpleTypeHandler().handle(schemaProperty(SchemaDataType.BOOLEAN)).getTypeName().toString(),
             "java.lang.Boolean");
     }
 
     @Test
     public void dateTypeIsHandled() {
-        assertEquals(new SimpleTypeHandler().handle(schemaProperty(SchemaDataType.DATE)).toString(),
-            "com.schemaorg4j.domain.datatypes.Date");
+        assertEquals(new SimpleTypeHandler().handle(schemaProperty(SchemaDataType.DATE)).getTypeName().toString(),
+            "java.time.LocalDate");
     }
 
     @Test
     public void dateTimeTypeHandled() {
-        assertEquals(new SimpleTypeHandler().handle(schemaProperty(SchemaDataType.DATETIME)).toString(),
-            "com.schemaorg4j.domain.datatypes.DateTime");
+        assertEquals(new SimpleTypeHandler().handle(schemaProperty(SchemaDataType.DATETIME)).getTypeName().toString(),
+            "java.time.ZonedDateTime");
     }
 
     @Test
     public void numberTypeIsHandled() {
-        assertEquals(new SimpleTypeHandler().handle(schemaProperty(SchemaDataType.NUMBER)).toString(),
+        assertEquals(new SimpleTypeHandler().handle(schemaProperty(SchemaDataType.NUMBER)).getTypeName().toString(),
             "java.lang.Float");
     }
 
     @Test
     public void floatTypeIsHandled() {
-        assertEquals(new SimpleTypeHandler().handle(schemaProperty(SchemaDataType.FLOAT)).toString(),
+        assertEquals(new SimpleTypeHandler().handle(schemaProperty(SchemaDataType.FLOAT)).getTypeName().toString(),
             "java.lang.Float");
     }
 
     @Test
     public void integerTypeIsHandled() {
-        assertEquals(new SimpleTypeHandler().handle(schemaProperty(SchemaDataType.INTEGER)).toString(),
+        assertEquals(new SimpleTypeHandler().handle(schemaProperty(SchemaDataType.INTEGER)).getTypeName().toString(),
             "java.lang.Integer");
     }
 
     @Test
     public void textTypeIsHandled() {
-        assertEquals(new SimpleTypeHandler().handle(schemaProperty(SchemaDataType.TEXT)).toString(),
+        assertEquals(new SimpleTypeHandler().handle(schemaProperty(SchemaDataType.TEXT)).getTypeName().toString(),
             "java.lang.String");
     }
 
     @Test
     public void timeTypeIsHandled() {
-        assertEquals(new SimpleTypeHandler().handle(schemaProperty(SchemaDataType.TIME)).toString(),
-            "com.schemaorg4j.domain.datatypes.Time");
+        assertEquals(new SimpleTypeHandler().handle(schemaProperty(SchemaDataType.TIME)).getTypeName().toString(),
+            "java.time.LocalTime");
     }
 }

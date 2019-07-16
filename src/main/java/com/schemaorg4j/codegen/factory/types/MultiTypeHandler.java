@@ -24,7 +24,7 @@ public class MultiTypeHandler implements TypeHandler {
     }
 
     @Override
-    public TypeName handle(SchemaProperty property) {
+    public FieldDeclarationRequirement handle(SchemaProperty property) {
         String name = property.getRangeIncludesIds()
             .stream()
             .map(id -> {
@@ -36,6 +36,6 @@ public class MultiTypeHandler implements TypeHandler {
             }).sorted()
             .collect(Collectors.joining("Or"));
 
-        return ClassName.get(COMBO_TYPE_PACKAGE, name);
+        return new FieldDeclarationRequirement(ClassName.get(COMBO_TYPE_PACKAGE, name));
     }
 }

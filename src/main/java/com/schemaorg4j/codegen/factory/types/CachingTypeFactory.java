@@ -7,7 +7,7 @@ import java.util.Map;
 
 public class CachingTypeFactory implements TypeFactory {
 
-    private Map<String, TypeName> cache;
+    private Map<String, FieldDeclarationRequirement> cache;
     private TypeFactory collaborator;
 
     public CachingTypeFactory(TypeFactory collaborator) {
@@ -16,7 +16,7 @@ public class CachingTypeFactory implements TypeFactory {
     }
 
     @Override
-    public TypeName build(SchemaProperty property) {
+    public FieldDeclarationRequirement build(SchemaProperty property) {
         if (!cache.containsKey(property.getId())) {
             cache.put(property.getId(), collaborator.build(property));
         }

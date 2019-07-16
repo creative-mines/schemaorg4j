@@ -35,10 +35,10 @@ public class SimpleTypeHandler implements TypeHandler {
     }
 
     @Override
-    public TypeName handle(SchemaProperty property) {
+    public FieldDeclarationRequirement handle(SchemaProperty property) {
         Optional<String> first = getFirstType(property);
         if (first.isPresent()) {
-            return ids.get(first.get());
+            return new FieldDeclarationRequirement(ids.get(first.get()));
         }
 
         throw new UnsupportedOperationException(

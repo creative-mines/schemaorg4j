@@ -7,5 +7,5 @@ public interface TypeHandler {
 
     boolean canHandle(SchemaProperty property);
 
-    TypeName handle(SchemaProperty property);
+    FieldDeclarationRequirement handle(SchemaProperty property);
 }

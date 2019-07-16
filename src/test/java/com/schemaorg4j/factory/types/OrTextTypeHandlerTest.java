@@ -29,7 +29,7 @@ public class OrTextTypeHandlerTest extends TypeFactoryTest {
             add(SchemaDataType.TEXT.getId());
         }});
         SchemaGraph graph = schemaGraph(schemaProperty, "Book");
-        assertEquals(new OrTextTypeHandler(graph).handle(schemaProperty).toString(),
+        assertEquals(new OrTextTypeHandler(graph).handle(schemaProperty).getTypeName().toString(),
             "com.schemaorg4j.util.OrText<com.schemaorg4j.domain.Book>");
     }
 
@@ -40,7 +40,7 @@ public class OrTextTypeHandlerTest extends TypeFactoryTest {
             add(SchemaDataType.TEXT.getId());
         }});
         SchemaGraph graph = schemaGraph(schemaProperty, "Book");
-        assertEquals(new OrTextTypeHandler(graph).handle(schemaProperty).toString(),
+        assertEquals(new OrTextTypeHandler(graph).handle(schemaProperty).getTypeName().toString(),
             "com.schemaorg4j.util.OrText<java.lang.Integer>");
     }
 
@@ -52,7 +52,7 @@ public class OrTextTypeHandlerTest extends TypeFactoryTest {
         }});
 
         SchemaGraph graph = schemaGraph(schemaProperty, "Book");
-        assertEquals(new OrTextTypeHandler(graph).handle(schemaProperty).toString(),
+        assertEquals(new OrTextTypeHandler(graph).handle(schemaProperty).getTypeName().toString(),
             "java.lang.String");
     }
 }

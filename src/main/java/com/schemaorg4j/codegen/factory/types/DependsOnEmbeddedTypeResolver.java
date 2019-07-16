@@ -25,7 +25,7 @@ public class DependsOnEmbeddedTypeResolver {
         }};
     }
 
-    protected TypeName resolveEmbeddedType(String typeId) {
+    protected FieldDeclarationRequirement resolveEmbeddedType(String typeId) {
         // TODO: Should not have to wrap in a schema property just for this
         SchemaProperty property = new SchemaPropertyBuilder()
             .setRangeIncludesIds(Collections.singleton(typeId)).createSchemaProperty();

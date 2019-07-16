@@ -24,7 +24,7 @@ public class MultiTypeHandlerTest extends TypeFactoryTest {
         graph.addClass(new SchemaClassBuilder().setId("http://schema.org/Book").setLabel("Book")
             .createSchemaClass());
 
-        assertEquals(new MultiTypeHandler(graph).handle(schemaProperty).toString(),
+        assertEquals(new MultiTypeHandler(graph).handle(schemaProperty).getTypeName().toString(),
             "com.schemaorg4j.domain.combo.BookOrIntegerOrText");
     }
 }

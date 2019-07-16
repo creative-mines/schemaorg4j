@@ -12,7 +12,7 @@ public class SimpleTypeFactoryTest extends TypeFactoryTest {
     @Test
     public void integerTypeCanBeGenerated() {
         assertEquals(
-            new SimpleTypeFactory(new SchemaGraph()).build(schemaProperty(SchemaDataType.INTEGER)).toString(),
+            new SimpleTypeFactory(new SchemaGraph()).build(schemaProperty(SchemaDataType.INTEGER)).getTypeName().toString(),
             "java.lang.Integer");
     }
 }

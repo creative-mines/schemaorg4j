@@ -11,6 +11,7 @@ import com.schemaorg4j.codegen.domain.SchemaProperty;
 import com.schemaorg4j.codegen.domain.SchemaPropertyBuilder;
 import com.schemaorg4j.codegen.factory.FieldContributor;
 import com.schemaorg4j.codegen.factory.JavaPoetFileBlueprint;
+import com.schemaorg4j.codegen.factory.types.FieldDeclarationRequirement;
 import com.squareup.javapoet.ClassName;
 import com.squareup.javapoet.FieldSpec;
 import java.util.HashSet;
@@ -38,7 +39,7 @@ public class FieldContributorTest {
         JavaPoetFileBlueprint blueprint = new JavaPoetFileBlueprint();
 
         FieldContributor fieldContributor = new FieldContributor(graph,
-            property -> ClassName.INT.box());
+            property -> new FieldDeclarationRequirement(ClassName.INT.box()));
         fieldContributor.contribute(schemaClass, blueprint);
 
         FieldSpec firstField = blueprint.getFields().get(0);

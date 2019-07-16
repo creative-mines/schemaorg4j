@@ -42,7 +42,12 @@ public class InheritedFieldContributor implements BlueprintContributor {
             String currentId = superclassIds.remove(0);
             SchemaClass currentClass = graph.getClass(currentId);
 
-            getInheritedFieldSpec(currentId).forEach(blueprint::addInheritedField);
+            getInheritedFieldSpec(currentId).forEach(field -> {
+                if (blueprint.getFields().stream().noneMatch(
+                    existingFieldSpec -> Objects.equals(existingFieldSpec.name, field.name))) {
+                    blueprint.addInheritedField(field);
+                }
+            });
             getInheritedEnumFields(currentId).ifPresent(blueprint::addInheritedField);
             blueprint
                 .addInheritedField(Util.generateNextField(DOMAIN_PACKAGE, currentClass.getLabel()));
@@ -66,7 +71,7 @@ public class InheritedFieldContributor implements BlueprintContributor {
 
     private Iterable<FieldSpec> getInheritedFieldSpec(String currentId) {
         return graph.getProperties(currentId).stream().map(property -> {
-            TypeName type = factory.build(property);
+            FieldDeclarationRequirement type = factory.build(property);
             if (type == null) {
                 LOGGER.warn("Could not resolve type for property {}, ignoring", property.getId());
                 return null;
@@ -75,14 +80,16 @@ public class InheritedFieldContributor implements BlueprintContributor {
             String label = orLabelFromId(property.getLabel(), property.getId());
 
             try {
-                return FieldSpec.builder(type, label, Modifier.PRIVATE)
+                return FieldSpec.builder(type.getTypeName(), label, Modifier.PRIVATE)
+                    .addAnnotations(type.getFieldAnnotations())
                     .build();
             } catch (IllegalArgumentException e) {
                 LOGGER.warn("Unable to add field '{}' (from {}), applying disambiguator",
                     property.getLabel(), property.getId());
                 LOGGER.debug("Original error", e);
 
-                return FieldSpec.builder(type, "$" + label, Modifier.PRIVATE)
+                return FieldSpec.builder(type.getTypeName(), "$" + label, Modifier.PRIVATE)
+                    .addAnnotations(type.getFieldAnnotations())
                     .build();
             }
         }).filter(Objects::nonNull).collect(Collectors.toList());
