@@ -7,6 +7,7 @@ import static com.schemaorg4j.codegen.constants.SchemaOrg4JConstants.DOMAIN_PACK
 import static com.schemaorg4j.codegen.factory.types.MethodUtil.getGetter;
 import static com.schemaorg4j.codegen.factory.types.MethodUtil.getSetter;
 
+import com.schemaorg4j.annotations.Schema4JComboClass;
 import com.schemaorg4j.codegen.domain.SchemaDataType;
 import com.schemaorg4j.codegen.domain.SchemaGraph;
 import com.schemaorg4j.codegen.domain.SchemaProperty;
@@ -88,6 +89,8 @@ public class MultiTypeProducingTypeFactory implements TypeFactory {
         builder.addField(nextField);
         builder.addMethod(getSetter(nextField));
         builder.addMethod(getGetter(nextField));
+
+        builder.addAnnotation(Schema4JComboClass.class);
 
         emittedTypes.add(builder.build());
     }
