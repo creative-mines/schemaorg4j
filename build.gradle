@@ -2,6 +2,9 @@
 apply plugin: 'java'
 apply plugin: 'idea'
 
+group 'com.schemaorg4j'
+version '1.0.0-SNAPSHOT'
+
 // In this section you declare where to find the dependencies of your project
 repositories {
     // Use 'jcenter' for resolving your dependencies.
@@ -16,9 +19,23 @@ dependencies {
     // testCompile dependency to testCompile 'org.testng:testng:6.8.1' and add
     // 'test.useTestNG()' to your build script.
     testCompile 'junit:junit:4.12'
-    compile 'com.fasterxml.jackson.core:jackson-databind:2.9.9'
-    compile 'com.squareup:javapoet:1.11.1'
+    implementation 'com.fasterxml.jackson.core:jackson-databind:2.9.9'
+    implementation 'com.squareup:javapoet:1.11.1'
     implementation 'org.slf4j:slf4j-api:1.7.26'
     implementation 'org.slf4j:slf4j-simple:1.7.26'
 
+}
+
+jar {
+    manifest {
+        attributes 'Implementation-Title': 'SchemaOrg4J'
+    }
+    exclude 'com/schemaorg4j/codegen/*/**', '*.jsonld'
+}
+
+task cleanGenerated(type: Exec) {
+    executable "sh"
+    args "-c", "rm -rf src/main/java/com/schemaorg4j/domain/*.java " +
+                      "src/main/java/com/schemaorg4j/domain/combo " +
+                      "src/main/java/com/schemaorg4j/domain/enums"
 }

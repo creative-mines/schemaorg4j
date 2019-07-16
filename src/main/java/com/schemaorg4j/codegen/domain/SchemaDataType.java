@@ -23,8 +23,8 @@ public class SchemaDataType {
     private final String label;
 
     public static final SchemaDataType BOOLEAN = new SchemaDataType(BOOLEAN_ID, "Boolean", "Boolean");
-    public static final SchemaDataType DATE = new SchemaDataType(DATE_ID, DATATYPES_PACKAGE + ".Date", "Date");
-    public static final SchemaDataType DATETIME = new SchemaDataType(DATETIME_ID, DATATYPES_PACKAGE + ".DateTime", "DateTime");
+    public static final SchemaDataType DATE = new SchemaDataType(DATE_ID, "Date", "Date");
+    public static final SchemaDataType DATETIME = new SchemaDataType(DATETIME_ID, "Date", "DateTime");
     public static final SchemaDataType NUMBER = new SchemaDataType(NUMBER_ID, "Float", "Number");
     public static final SchemaDataType FLOAT = new SchemaDataType(FLOAT_ID, "Float", "Float");
     public static final SchemaDataType INTEGER = new SchemaDataType(INTEGER_ID, "Integer", "Integer");
