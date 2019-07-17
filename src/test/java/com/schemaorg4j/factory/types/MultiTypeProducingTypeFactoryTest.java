@@ -47,9 +47,9 @@ public class MultiTypeProducingTypeFactoryTest {
         assertEquals(spec.fieldSpecs.get(0).name, "audio");
         assertEquals(spec.fieldSpecs.get(0).type.toString(), "com.schemaorg4j.domain.Audio");
         assertTrue(spec.fieldSpecs.get(0).hasModifier(Modifier.PRIVATE));
-        assertEquals(spec.fieldSpecs.get(1).name, "book");
-        assertEquals(spec.fieldSpecs.get(1).type.toString(), "com.schemaorg4j.domain.Book");
-        assertTrue(spec.fieldSpecs.get(1).hasModifier(Modifier.PRIVATE));
+        assertEquals(spec.fieldSpecs.get(2).name, "book");
+        assertEquals(spec.fieldSpecs.get(2).type.toString(), "com.schemaorg4j.domain.Book");
+        assertTrue(spec.fieldSpecs.get(2).hasModifier(Modifier.PRIVATE));
     }
 
     @Test

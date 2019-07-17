@@ -7,7 +7,7 @@ import java.lang.annotation.Target;
 
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.TYPE)
-public @interface Schema4JComboClass {
+public @interface SchemaOrg4JComboClass {
     /**
      * Possible types that this combo class can represent
      * @return

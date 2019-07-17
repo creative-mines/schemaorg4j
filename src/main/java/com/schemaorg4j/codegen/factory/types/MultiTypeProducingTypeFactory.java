@@ -7,12 +7,13 @@ import static com.schemaorg4j.codegen.constants.SchemaOrg4JConstants.DOMAIN_PACK
 import static com.schemaorg4j.codegen.factory.types.MethodUtil.getGetter;
 import static com.schemaorg4j.codegen.factory.types.MethodUtil.getSetter;
 
-import com.schemaorg4j.annotations.Schema4JComboClass;
+import com.schemaorg4j.annotations.SchemaOrg4JComboClass;
 import com.schemaorg4j.codegen.domain.SchemaDataType;
 import com.schemaorg4j.codegen.domain.SchemaGraph;
 import com.schemaorg4j.codegen.domain.SchemaProperty;
 import com.schemaorg4j.codegen.domain.SchemaPropertyBuilder;
 import com.schemaorg4j.codegen.jsonld.Util;
+import com.squareup.javapoet.AnnotationSpec;
 import com.squareup.javapoet.ClassName;
 import com.squareup.javapoet.FieldSpec;
 import com.squareup.javapoet.TypeName;
@@ -22,6 +23,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 import javax.lang.model.element.Modifier;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -57,6 +59,8 @@ public class MultiTypeProducingTypeFactory implements TypeFactory {
             .classBuilder(className)
             .addModifiers(Modifier.PUBLIC);
 
+        List<TypeName> combinedTypes = new ArrayList<>();
+
         property.getRangeIncludesIds().stream().sorted().forEach(id -> {
             String variableName = decapitalize(orLabelFromId(null, id));
 
@@ -82,7 +86,10 @@ public class MultiTypeProducingTypeFactory implements TypeFactory {
                 }
             }
 
+            combinedTypes.add(field.type);
+
             builder.addField(field);
+            builder.addField(FieldUtil.getLensField(className, field, COMBO_TYPE_PACKAGE));
             builder.addMethod(getSetter(field));
             builder.addMethod(getGetter(field));
         });
@@ -92,7 +99,11 @@ public class MultiTypeProducingTypeFactory implements TypeFactory {
         builder.addMethod(getSetter(nextField));
         builder.addMethod(getGetter(nextField));
 
-        builder.addAnnotation(Schema4JComboClass.class);
+        String valueString = String.format("{%s}",
+            combinedTypes.stream().map(typeName -> "$T.class").collect(Collectors.joining(", ")));
+
+
+        builder.addAnnotation(AnnotationSpec.builder(SchemaOrg4JComboClass.class).addMember("value", valueString, combinedTypes.toArray()).build());
 
         emittedTypes.add(builder.build());
     }
