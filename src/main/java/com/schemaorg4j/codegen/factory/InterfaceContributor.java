@@ -59,12 +59,19 @@ public class InterfaceContributor implements BlueprintContributor {
     }
 
     private void addMethods(Builder builder, JavaPoetFileBlueprint blueprint) {
-        builder.addMethods(blueprint.getMethods().stream().map(methodSpec -> MethodSpec
-            .methodBuilder(methodSpec.name)
-            .addModifiers(Modifier.ABSTRACT, Modifier.PUBLIC)
-            .returns(methodSpec.returnType)
-            .addParameters(methodSpec.parameters)
-            .build()
-        ).collect(Collectors.toList()));
+        builder.addMethods(blueprint.getMethods().stream().map(methodSpec -> {
+            MethodSpec.Builder methodSpecBuilder = MethodSpec
+                .methodBuilder(methodSpec.name)
+                .returns(methodSpec.returnType)
+                .addParameters(methodSpec.parameters);
+
+            if (methodSpec.modifiers.contains(Modifier.DEFAULT)) {
+                methodSpecBuilder.addModifiers(Modifier.DEFAULT, Modifier.PUBLIC).addCode(methodSpec.code);
+            } else {
+                methodSpecBuilder.addModifiers(Modifier.ABSTRACT, Modifier.PUBLIC);
+            }
+
+            return methodSpecBuilder.build();
+        }).collect(Collectors.toList()));
     }
 }

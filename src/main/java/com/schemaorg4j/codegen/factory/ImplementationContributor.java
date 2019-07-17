@@ -37,13 +37,16 @@ public class ImplementationContributor implements BlueprintContributor {
 
         builder.addFields(blueprint.getFields());
         builder.addFields(blueprint.getInheritedFields());
-        builder.addMethods(blueprint.getMethods());
+        builder.addMethods(blueprint.getMethods().stream()
+            .filter(method -> !method.modifiers.contains(Modifier.DEFAULT)).collect(
+                Collectors.toList()));
         builder.addMethods(generateInheritedAccessorsAndMutators(blueprint));
 
         blueprint.addType(builder.build());
     }
 
-    private Iterable<MethodSpec> generateInheritedAccessorsAndMutators(JavaPoetFileBlueprint blueprint) {
+    private Iterable<MethodSpec> generateInheritedAccessorsAndMutators(
+        JavaPoetFileBlueprint blueprint) {
         return blueprint.getInheritedFields()
             .stream()
             .map(field -> Stream.of(

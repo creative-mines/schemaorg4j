@@ -30,6 +30,7 @@ public class JavaFileFactory {
             add(new FieldContributor(graph, typeFactory));
             add(enumMemberContributor);
             add(new ErrorObjectContributor());
+            add(new SimpleThingContributor());
             add(new AdditionalDataObjectContributor());
             add(new NextFieldContributor());
             add(new MethodContributor(graph));
