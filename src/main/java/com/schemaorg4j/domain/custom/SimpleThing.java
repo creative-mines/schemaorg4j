@@ -11,6 +11,7 @@ import com.schemaorg4j.util.OrText;
 public class SimpleThing implements Thing {
 
     private String simpleValue;
+    private Thing nextThing;
 
     @Override
     public String getAdditionalType() {
@@ -166,12 +167,12 @@ public class SimpleThing implements Thing {
 
     @Override
     public Thing getNextThing() {
-        return null;
+        return nextThing;
     }
 
     @Override
     public void setNextThing(Thing nextThing) {
-
+        this.nextThing = nextThing;
     }
 
     @Override
