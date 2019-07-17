@@ -90,14 +90,14 @@ public class MultiTypeProducingTypeFactory implements TypeFactory {
 
             builder.addField(field);
             builder.addField(FieldUtil.getLensField(className, field, COMBO_TYPE_PACKAGE));
-            builder.addMethod(getSetter(field));
-            builder.addMethod(getGetter(field));
+            getSetter(field).forEach(builder::addMethod);
+            getGetter(field).forEach(builder::addMethod);
         });
 
         FieldSpec nextField = Util.generateNextField(COMBO_TYPE_PACKAGE, className);
         builder.addField(nextField);
-        builder.addMethod(getSetter(nextField));
-        builder.addMethod(getGetter(nextField));
+        getSetter(nextField).forEach(builder::addMethod);
+        getGetter(nextField).forEach(builder::addMethod);
 
         String valueString = String.format("{%s}",
             combinedTypes.stream().map(typeName -> "$T.class").collect(Collectors.joining(", ")));
@@ -125,8 +125,7 @@ public class MultiTypeProducingTypeFactory implements TypeFactory {
     private boolean mustBeMultiType(SchemaProperty property) {
         boolean couldBeMultiType = property.getRangeIncludesIds().size() > 1 && (
             property.getRangeIncludesIds().size() > 2 || property.getRangeIncludesIds().stream()
-                .noneMatch(id -> Objects.equals(id, SchemaDataType.TEXT.getId()) || Objects
-                    .equals(id, SchemaDataType.URL.getId())));
+                .noneMatch(id -> Objects.equals(id, SchemaDataType.TEXT.getId())));
 
         if (couldBeMultiType) {
             return property

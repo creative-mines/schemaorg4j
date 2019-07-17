@@ -29,9 +29,7 @@ public class OrTextTypeHandler extends DependsOnEmbeddedTypeResolver implements 
     }
 
     private boolean hasTextAsOneType(Set<String> range) {
-        return range.stream().anyMatch(
-            id -> Objects.equals(SchemaDataType.TEXT.getId(), id) || Objects
-                .equals(SchemaDataType.URL.getId(), id));
+        return range.stream().anyMatch(id -> Objects.equals(SchemaDataType.TEXT.getId(), id));
     }
 
     private boolean hasTwoTypes(Set<String> range) {
@@ -60,8 +58,7 @@ public class OrTextTypeHandler extends DependsOnEmbeddedTypeResolver implements 
         Set<String> range = property.getRangeIncludesIds();
         return range.stream()
             .filter(id -> !Objects
-                .equals(SchemaDataType.TEXT.getId(), id) && !Objects
-                .equals(SchemaDataType.URL.getId(), id))
+                .equals(SchemaDataType.TEXT.getId(), id))
             .findFirst();
     }
 }

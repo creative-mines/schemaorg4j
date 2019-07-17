@@ -13,6 +13,6 @@ public class SimpleTypeFactoryTest extends TypeFactoryTest {
     public void integerTypeCanBeGenerated() {
         assertEquals(
             new SimpleTypeFactory(new SchemaGraph()).build(schemaProperty(SchemaDataType.INTEGER)).getTypeName().toString(),
-            "java.lang.Integer");
+            "com.schemaorg4j.domain.datatypes.Integer");
     }
 }

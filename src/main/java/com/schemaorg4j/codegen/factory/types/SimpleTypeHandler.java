@@ -1,5 +1,7 @@
 package com.schemaorg4j.codegen.factory.types;
 
+import static com.schemaorg4j.codegen.constants.SchemaOrg4JConstants.DATATYPES_PACKAGE;
+
 import com.schemaorg4j.codegen.domain.SchemaDataType;
 import com.schemaorg4j.codegen.domain.SchemaProperty;
 import com.squareup.javapoet.ClassName;
@@ -14,15 +16,15 @@ public class SimpleTypeHandler implements TypeHandler {
 
     public SimpleTypeHandler() {
         ids = new HashMap<String, TypeName>() {{
-            put(SchemaDataType.BOOLEAN.getId(), TypeName.BOOLEAN.box());
-            put(SchemaDataType.NUMBER.getId(), TypeName.FLOAT.box());
-            put(SchemaDataType.FLOAT.getId(), TypeName.FLOAT.box());
-            put(SchemaDataType.INTEGER.getId(), TypeName.INT.box());
-            put(SchemaDataType.TEXT.getId(), ClassName.get("java.lang", "String"));
-            put(SchemaDataType.DATE.getId(), ClassName.get("java.time", "LocalDate"));
-            put(SchemaDataType.DATETIME.getId(), ClassName.get("java.time", "ZonedDateTime"));
-            put(SchemaDataType.TIME.getId(), ClassName.get("java.time", "LocalTime"));
-            put(SchemaDataType.URL.getId(), ClassName.get("java.lang", "String"));
+            put(SchemaDataType.BOOLEAN.getId(), ClassName.get(DATATYPES_PACKAGE, "Boolean"));
+            put(SchemaDataType.NUMBER.getId(), ClassName.get(DATATYPES_PACKAGE, "Number"));
+            put(SchemaDataType.FLOAT.getId(), ClassName.get(DATATYPES_PACKAGE, "Float"));
+            put(SchemaDataType.INTEGER.getId(), ClassName.get(DATATYPES_PACKAGE, "Integer"));
+            put(SchemaDataType.TEXT.getId(), ClassName.get(DATATYPES_PACKAGE, "Text"));
+            put(SchemaDataType.DATE.getId(), ClassName.get(DATATYPES_PACKAGE, "Date"));
+            put(SchemaDataType.DATETIME.getId(), ClassName.get(DATATYPES_PACKAGE, "DateTime"));
+            put(SchemaDataType.TIME.getId(), ClassName.get(DATATYPES_PACKAGE, "Time"));
+            put(SchemaDataType.URL.getId(), ClassName.get(DATATYPES_PACKAGE, "URL"));
         }};
     }
 

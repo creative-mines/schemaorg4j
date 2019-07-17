@@ -19,24 +19,10 @@ public class SimpleThingContributorTest {
     }
 
     @Test
-    public void contributesSetterForSimpleThingToThing() {
-        JavaPoetFileBlueprint blueprint = new JavaPoetFileBlueprint();
-        new SimpleThingContributor().contribute(thing(), blueprint);
-        assertEquals(blueprint.getMethods().get(0).name, "getSimpleValue");
-    }
-
-    @Test
-    public void contributesGetterForSimpleThingToThing() {
-        JavaPoetFileBlueprint blueprint = new JavaPoetFileBlueprint();
-        new SimpleThingContributor().contribute(thing(), blueprint);
-        assertEquals(blueprint.getMethods().get(1).name, "setSimpleValue");
-    }
-
-    @Test
     public void contributesDefaultIsSimpleThingMethod() {
         JavaPoetFileBlueprint blueprint = new JavaPoetFileBlueprint();
         new SimpleThingContributor().contribute(thing(), blueprint);
-        assertEquals(blueprint.getMethods().get(2).name, "isSimpleThing");
+        assertEquals(blueprint.getMethods().get(0).name, "isSimpleThing");
     }
 
     private SchemaClass thing() {

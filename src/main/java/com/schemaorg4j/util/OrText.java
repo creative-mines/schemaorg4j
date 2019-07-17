@@ -1,5 +1,6 @@
 package com.schemaorg4j.util;
 
+import com.schemaorg4j.domain.datatypes.Text;
 import java.util.Objects;
 import java.util.function.Consumer;
 
@@ -14,11 +15,17 @@ public class OrText<T> {
     }
 
     private final T value;
-    private final String text;
+    private final Text text;
+
+    private OrText(T value, Text text) {
+        this.value = value;
+        this.text = text;
+    }
 
     private OrText(T value, String text) {
         this.value = value;
-        this.text = text;
+        this.text = new Text();
+        this.text.setValue(text);
     }
 
     public static <T> OrText<T> text(String text) {
@@ -26,7 +33,7 @@ public class OrText<T> {
     }
 
     public static <T> OrText<T> value(T value) {
-        return new OrText<>(value, null);
+        return new OrText<>(value, new Text());
     }
 
     @Override
@@ -50,8 +57,8 @@ public class OrText<T> {
         return Objects.hash(getValue(), getText());
     }
 
-    public void asText(Consumer<String> consumer) {
-        if (text != null) {
+    public void asText(Consumer<Text> consumer) {
+        if (text != null && text.getValue() != null) {
             consumer.accept(text);
         }
     }
@@ -67,15 +74,15 @@ public class OrText<T> {
     }
 
     public String getText() {
-        return text;
+        return text.getValue();
     }
 
-    public void map(Consumer<T> vc, Consumer<String> sc) {
+    public void map(Consumer<T> vc, Consumer<Text> sc) {
         if (value != null) {
             vc.accept(value);
         }
 
-        if (text != null) {
+        if (text != null && text.getValue() != null) {
             sc.accept(text);
         }
     }

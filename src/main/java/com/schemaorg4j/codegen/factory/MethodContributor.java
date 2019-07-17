@@ -17,8 +17,8 @@ public class MethodContributor implements BlueprintContributor {
     @Override
     public void contribute(SchemaClass schemaClass, JavaPoetFileBlueprint blueprint) {
         blueprint.getFields().forEach(fieldSpec -> {
-            blueprint.addMethod(getGetter(fieldSpec));
-            blueprint.addMethod(getSetter(fieldSpec));
+            getGetter(fieldSpec).forEach(blueprint::addMethod);
+            getSetter(fieldSpec).forEach(blueprint::addMethod);
         });
     }
 }

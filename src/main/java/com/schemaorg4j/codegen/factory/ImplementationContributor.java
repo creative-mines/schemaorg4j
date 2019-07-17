@@ -50,10 +50,10 @@ public class ImplementationContributor implements BlueprintContributor {
         return blueprint.getInheritedFields()
             .stream()
             .map(field -> Stream.of(
-                getGetter(field).toBuilder().addAnnotation(Override.class).build(),
-                getSetter(field).toBuilder().addAnnotation(Override.class).build())
-            )
-            .flatMap(stream -> stream)
+                getGetter(field).stream().map(getter -> getter.toBuilder().addAnnotation(Override.class).build()),
+                getSetter(field).stream().map(setter -> setter.toBuilder().addAnnotation(Override.class).build())
+            ))
+            .flatMap(s1 -> s1.flatMap(s2 -> s2))
             .collect(Collectors.toList());
 
     }

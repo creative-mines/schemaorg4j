@@ -3,6 +3,7 @@ package com.schemaorg4j.codegen.factory.types;
 import static com.schemaorg4j.codegen.StringUtils.capitalize;
 import static com.schemaorg4j.codegen.constants.SchemaOrg4JConstants.DOMAIN_PACKAGE;
 import static com.schemaorg4j.codegen.constants.SchemaOrg4JConstants.UTIL_PACKAGE;
+import static com.schemaorg4j.codegen.factory.types.TypeUtil.isDataType;
 
 import com.schemaorg4j.codegen.domain.SchemaClass;
 import com.squareup.javapoet.ClassName;
@@ -30,9 +31,11 @@ public class FieldUtil {
     }
 
     private static CodeBlock getInitializer(FieldSpec fieldSpec) {
+        String maybeData = isDataType(fieldSpec.type) ? "Data" : "";
+
         return CodeBlock.builder()
             .add(
-                "new Lens<>(c -> c.get$N(), (c, fieldValue) -> { c.set$N(fieldValue); return c; })",
+                String.format("new Lens<>(c -> c.get$N%s(), (c, fieldValue) -> { c.set$N%s(fieldValue); return c; })", maybeData, maybeData),
                 capitalize(fieldSpec.name), capitalize(fieldSpec.name))
             .build();
     }

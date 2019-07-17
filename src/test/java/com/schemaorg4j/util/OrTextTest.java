@@ -47,7 +47,7 @@ public class OrTextTest {
 
     @Test
     public void asTextMapperWorks() {
-        OrText.text("Hello").asText(t -> assertEquals(t, "Hello"));
+        OrText.text("Hello").asText(t -> assertEquals(t.getValue(), "Hello"));
     }
 
     @Test

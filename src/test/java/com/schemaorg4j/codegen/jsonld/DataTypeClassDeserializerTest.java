@@ -22,7 +22,6 @@ public class DataTypeClassDeserializerTest extends DeserializerTest {
 
         SchemaDataType dt = objectMapper().readValue(json, SchemaDataType.class);
         assertEquals(dt.getId(), "http://schema.org/Boolean");
-        assertEquals(dt.getJavaDataType(), "Boolean");
     }
 
     @Test
@@ -37,7 +36,6 @@ public class DataTypeClassDeserializerTest extends DeserializerTest {
 
         SchemaDataType dt = objectMapper().readValue(json, SchemaDataType.class);
         assertEquals(dt.getId(), "http://schema.org/Date");
-        assertEquals(dt.getJavaDataType(), "LocalDate");
 
     }
 
@@ -53,7 +51,6 @@ public class DataTypeClassDeserializerTest extends DeserializerTest {
 
         SchemaDataType dt = objectMapper().readValue(json, SchemaDataType.class);
         assertEquals(dt.getId(), "http://schema.org/DateTime");
-        assertEquals(dt.getJavaDataType(), "ZonedDateTime");
 
     }
 
@@ -70,7 +67,6 @@ public class DataTypeClassDeserializerTest extends DeserializerTest {
 
         SchemaDataType dt = objectMapper().readValue(json, SchemaDataType.class);
         assertEquals(dt.getId(), "http://schema.org/Number");
-        assertEquals(dt.getJavaDataType(), "Float");
     }
 
     @Test
@@ -85,7 +81,6 @@ public class DataTypeClassDeserializerTest extends DeserializerTest {
 
         SchemaDataType dt = objectMapper().readValue(json, SchemaDataType.class);
         assertEquals(dt.getId(), "http://schema.org/Integer");
-        assertEquals(dt.getJavaDataType(), "Integer");
 
     }
 
@@ -102,7 +97,6 @@ public class DataTypeClassDeserializerTest extends DeserializerTest {
 
         SchemaDataType dt = objectMapper().readValue(json, SchemaDataType.class);
         assertEquals(dt.getId(), "http://schema.org/Float");
-        assertEquals(dt.getJavaDataType(), "Float");
     }
 
     @Test
@@ -118,7 +112,6 @@ public class DataTypeClassDeserializerTest extends DeserializerTest {
 
         SchemaDataType dt = objectMapper().readValue(json, SchemaDataType.class);
         assertEquals(dt.getId(), "http://schema.org/Text");
-        assertEquals(dt.getJavaDataType(), "String");
     }
 
     @Test
@@ -133,7 +126,6 @@ public class DataTypeClassDeserializerTest extends DeserializerTest {
 
         SchemaDataType dt = objectMapper().readValue(json, SchemaDataType.class);
         assertEquals(dt.getId(), "http://schema.org/Time");
-        assertEquals(dt.getJavaDataType(), "LocalTime");
 
     }
 }

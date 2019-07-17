@@ -23,7 +23,7 @@ public class InheritedFieldContributorTest {
             .contribute(schemaClass(), blueprint);
 
         assertEquals(blueprint.getInheritedFields().get(0).name, "fromCreativeWork");
-        assertEquals(blueprint.getInheritedFields().get(0).type.toString(), "java.lang.String");
+        assertEquals(blueprint.getInheritedFields().get(0).type.toString(), "com.schemaorg4j.domain.datatypes.Text");
     }
 
     @Test
@@ -34,7 +34,7 @@ public class InheritedFieldContributorTest {
             .contribute(schemaClass(), blueprint);
 
         assertEquals(blueprint.getInheritedFields().get(2).name, "fromThing");
-        assertEquals(blueprint.getInheritedFields().get(2).type.toString(), "java.lang.String");
+        assertEquals(blueprint.getInheritedFields().get(2).type.toString(), "com.schemaorg4j.domain.datatypes.Text");
     }
 
 
