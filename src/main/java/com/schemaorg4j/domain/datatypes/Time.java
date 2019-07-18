@@ -4,11 +4,15 @@ import java.time.LocalTime;
 
 public class Time {
 
+    private LocalTime value;
+
+    public Time() {
+
+    }
+
     public Time(LocalTime value) {
         this.value = value;
     }
-
-    private LocalTime value;
 
     public void setValue(LocalTime value) {
         this.value = value;

@@ -4,6 +4,10 @@ public class Number {
 
     private java.lang.Float value;
 
+    public Number() {
+
+    }
+
     public Number(java.lang.Float value) {
         this.value = value;
     }

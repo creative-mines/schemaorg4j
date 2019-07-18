@@ -4,6 +4,10 @@ import java.time.LocalDate;
 
 public class Date {
 
+    public Date() {
+
+    }
+
     public Date(LocalDate value) {
         this.value = value;
     }

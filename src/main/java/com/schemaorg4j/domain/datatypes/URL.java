@@ -2,6 +2,10 @@ package com.schemaorg4j.domain.datatypes;
 
 public class URL {
 
+    public URL() {
+
+    }
+
     public URL(String value) {
         this.value = value;
     }

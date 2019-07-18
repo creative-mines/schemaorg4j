@@ -2,6 +2,10 @@ package com.schemaorg4j.domain.datatypes;
 
 public class Boolean {
 
+    public Boolean() {
+
+    }
+
     public Boolean(java.lang.Boolean value) {
         this.value = value;
     }

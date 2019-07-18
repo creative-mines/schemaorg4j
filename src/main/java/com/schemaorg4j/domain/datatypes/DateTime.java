@@ -4,6 +4,10 @@ import java.time.ZonedDateTime;
 
 public class DateTime {
 
+    public DateTime() {
+
+    }
+
     public DateTime(ZonedDateTime value) {
         this.value = value;
     }

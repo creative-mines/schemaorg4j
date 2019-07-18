@@ -2,6 +2,10 @@ package com.schemaorg4j.domain.datatypes;
 
 public class Integer {
 
+    public Integer() {
+
+    }
+
     public Integer(java.lang.Integer value) {
         this.value = value;
     }

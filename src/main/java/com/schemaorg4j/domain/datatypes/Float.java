@@ -2,6 +2,10 @@ package com.schemaorg4j.domain.datatypes;
 
 public class Float {
 
+    public Float() {
+
+    }
+
     public Float(java.lang.Float value) {
         this.value = value;
     }
