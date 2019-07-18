@@ -2,13 +2,13 @@ package com.schemaorg4j.domain.datatypes;
 
 public class SchemaOrg4JAdditionalData {
 
-    private String additionalData;
+    private Object additionalData;
 
-    public String getAdditionalData() {
+    public Object getAdditionalData() {
         return additionalData;
     }
 
-    public void setAdditionalData(String additionalData) {
+    public void setAdditionalData(Object additionalData) {
         this.additionalData = additionalData;
     }
 }
