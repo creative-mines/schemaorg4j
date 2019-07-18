@@ -6,15 +6,16 @@ import com.schemaorg4j.domain.combo.CreativeWorkOrEvent;
 import com.schemaorg4j.domain.combo.CreativeWorkOrURL;
 import com.schemaorg4j.domain.combo.ImageObjectOrURL;
 import com.schemaorg4j.domain.combo.PropertyValueOrTextOrURL;
-import com.schemaorg4j.domain.datatypes.SchemaOrg4JAdditionalData;
 import com.schemaorg4j.domain.datatypes.Text;
 import com.schemaorg4j.domain.datatypes.URL;
 import com.schemaorg4j.domain.error.SchemaOrg4JError;
+import java.util.List;
 
 public class SimpleThing implements Thing {
 
     private Thing nextThing;
     private String simpleValue;
+    private List<SchemaOrg4JError> errors;
 
     @Override
     public URL getAdditionalTypeData() {
@@ -207,14 +208,14 @@ public class SimpleThing implements Thing {
     }
 
     @Override
-    public com.schemaorg4j.domain.error.SchemaOrg4JError getSchemaOrg4JError() {
-        return null;
+    public List<com.schemaorg4j.domain.error.SchemaOrg4JError> getSchemaOrg4JErrors() {
+        return errors;
     }
 
     @Override
-    public void setSchemaOrg4JError(
-        com.schemaorg4j.domain.error.SchemaOrg4JError schemaOrg4JError) {
-
+    public void setSchemaOrg4JErrors(
+        List<com.schemaorg4j.domain.error.SchemaOrg4JError> schemaOrg4JErrors) {
+        this.errors = schemaOrg4JErrors;
     }
 
     @Override

@@ -2,15 +2,15 @@ package com.schemaorg4j.domain.error;
 
 public class SchemaOrg4JError {
 
-    private final String contents;
+    private final Object contents;
     private final String message;
 
-    public SchemaOrg4JError(String message, String contents) {
+    public SchemaOrg4JError(String message, Object contents) {
         this.message = message;
         this.contents = contents;
     }
 
-    public String getContents() {
+    public Object getContents() {
         return contents;
     }
 
