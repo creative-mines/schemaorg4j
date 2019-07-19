@@ -3,6 +3,10 @@ package com.schemaorg4j.domain.datatypes;
 import com.schemaorg4j.util.Lens;
 import java.util.Objects;
 
+/**
+ * <a href = "https://schema.org/Integer">Integer</a> type from Schema.org.  Internally maps to
+ * {@link java.lang.Integer}.
+ */
 public class Integer extends DataType {
 
     private java.lang.Integer value;

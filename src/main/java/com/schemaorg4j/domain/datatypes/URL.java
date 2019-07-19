@@ -3,6 +3,10 @@ package com.schemaorg4j.domain.datatypes;
 import com.schemaorg4j.util.Lens;
 import java.util.Objects;
 
+/**
+ * <a href = "https://schema.org/URL">URL</a> type from Schema.org.  Internally maps to
+ * {@link java.lang.String}.
+ */
 public class URL extends DataType {
 
     private String value;

@@ -4,6 +4,10 @@ import com.schemaorg4j.util.Lens;
 import java.time.ZonedDateTime;
 import java.util.Objects;
 
+/**
+ * <a href = "https://schema.org/DateTime">DateTime</a> type from Schema.org.  Internally maps to
+ * {@link java.time.ZonedDateTime}.
+ */
 public class DateTime extends DataType {
 
     private ZonedDateTime value;

@@ -3,7 +3,11 @@ package com.schemaorg4j.domain.datatypes;
 import com.schemaorg4j.util.Lens;
 import java.util.Objects;
 
-public class Boolean {
+/**
+ * <a href = "https://schema.org/Integer">Integer</a> type from Schema.org.  Internally maps to
+ * {@link java.lang.Integer}.
+ */
+public class Boolean extends DataType {
 
     private java.lang.Boolean value;
     private Boolean nextBoolean;

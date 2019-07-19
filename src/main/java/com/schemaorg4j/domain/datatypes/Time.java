@@ -4,6 +4,10 @@ import com.schemaorg4j.util.Lens;
 import java.time.LocalTime;
 import java.util.Objects;
 
+/**
+ * <a href = "https://schema.org/Time">Time</a> type from Schema.org.  Internally maps to
+ * {@link java.time.LocalTime}.
+ */
 public class Time extends DataType {
 
     private LocalTime value;

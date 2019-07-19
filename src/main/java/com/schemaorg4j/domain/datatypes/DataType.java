@@ -3,7 +3,10 @@ package com.schemaorg4j.domain.datatypes;
 import com.schemaorg4j.domain.error.SchemaOrg4JError;
 import java.util.List;
 
-public class DataType {
+/**
+ * Superclass for all Schema.org <a href = "https://schema.org/DataType">DataTypes</a>.
+ */
+public abstract class DataType {
 
     private List<SchemaOrg4JError> errors;
 

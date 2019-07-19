@@ -3,6 +3,10 @@ package com.schemaorg4j.domain.datatypes;
 import com.schemaorg4j.util.Lens;
 import java.util.Objects;
 
+/**
+ * <a href = "https://schema.org/Float">Float</a> type from Schema.org.  Internally maps to
+ * {@link java.lang.Float}.
+ */
 public class Float extends DataType {
 
     private java.lang.Float value;
