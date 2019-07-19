@@ -1,3 +1,7 @@
+plugins {
+    id 'jacoco'
+}
+
 // Apply the java plugin to add support for Java
 apply plugin: 'java'
 apply plugin: 'idea'
@@ -44,4 +48,12 @@ task cleanGenerated(type: Exec) {
     args "-c", "rm -rf src/main/java/com/schemaorg4j/domain/*.java " +
                       "src/main/java/com/schemaorg4j/domain/combo " +
                       "src/main/java/com/schemaorg4j/domain/enums"
+}
+
+jacocoTestReport {
+    afterEvaluate {
+        classDirectories = files(classDirectories.files.collect {
+            fileTree(dir: it, exclude: 'com/schemaorg4j/domain/*/**')
+        })
+    }
 }
