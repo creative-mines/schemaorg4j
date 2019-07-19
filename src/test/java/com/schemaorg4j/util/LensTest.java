@@ -22,6 +22,12 @@ public class LensTest {
     @Test
     public void mapLensingWorksWHenTheChainIsInvalid() {
         CreativeWork book = bookWithAuthor();
+        assertNull(Lens.oAs(Author.class).oAndThen(Author.Name).oGet(book) );
+    }
+
+    @Test(expected = LensException.class)
+    public void mapLensingFailsWhenTheChainIsInvalidAndOptimisticLensingNotUsed() {
+        CreativeWork book = bookWithAuthor();
         assertNull(Lens.as(Author.class).andThen(Author.Name).get(book) );
     }
 
@@ -29,12 +35,25 @@ public class LensTest {
     public void setLensingWhenTheChainIsInvalidWorks() {
         // Should not throw but should not do any modification either
         Book b = new Book();
+        Book.Author.oAndThen(Author.Name).oSet(b, "some author");
+        assertNull(b.getAuthor());
+    }
+
+    @Test(expected = LensException.class)
+    public void setLensingFailsWhenTheChainIsInvalidAnNonOpimisticLensingChosen() {
+        Book b = new Book();
         Book.Author.andThen(Author.Name).set(b, "some author");
         assertNull(b.getAuthor());
     }
 
     @Test
     public void getLensingWhenTheChainIsInvalidWorks() {
+        Book b = new Book();
+        assertNull(Book.Author.oAndThen(Author.Name).oGet(b));
+    }
+
+    @Test(expected = LensException.class)
+    public void getLensingWhenTheChainIsInvalidFailsWhenNoOptimisticLensing() {
         Book b = new Book();
         assertNull(Book.Author.andThen(Author.Name).get(b));
     }
@@ -52,10 +71,17 @@ public class LensTest {
         assertEquals(Lens.as(Book.class).andThen(Book.Author).andThen(Author.Name).get(book), "Some other author");
     }
 
+    @Test(expected = LensException.class)
+    public void mapLensingWithSetShouldThrowIfTheClassMismatchesAndNoOptimisticLensing() {
+        CreativeWork book = bookWithAuthor();
+        Lens.as(Author.class).andThen(Author.Name).set(book, "Some other author");
+        assertEquals(Lens.as(Book.class).andThen(Book.Author).andThen(Author.Name).get(book), "Robert M. Pirsig");
+    }
+
     @Test
     public void mapLensingWithSetShouldNotThrowIfTHeClassMismatches() {
         CreativeWork book = bookWithAuthor();
-        Lens.as(Author.class).andThen(Author.Name).set(book, "Some other author");
+        Lens.oAs(Author.class).oAndThen(Author.Name).oSet(book, "Some other author");
         assertEquals(Lens.as(Book.class).andThen(Book.Author).andThen(Author.Name).get(book), "Robert M. Pirsig");
     }
 
