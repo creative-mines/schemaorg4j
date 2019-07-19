@@ -6,4 +6,5 @@ public class SchemaOrg4JConstants {
     public static final String COMBO_TYPE_PACKAGE = "com.schemaorg4j.domain.combo";
     public static final String ENUM_PACKAGE = "com.schemaorg4j.domain.enums";
     public static final String UTIL_PACKAGE = "com.schemaorg4j.util";
+    public static final String CUSTOM_PACKAGE = "com.schemaorg4j.domain.custom";
 }
