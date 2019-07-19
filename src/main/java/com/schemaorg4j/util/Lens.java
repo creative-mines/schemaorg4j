@@ -3,6 +3,51 @@ package com.schemaorg4j.util;
 import java.util.function.BiFunction;
 import java.util.function.Function;
 
+/**
+ * Lenses are generated internally for all Schema.org types to allow simple traversal of objects.
+ * Lensing is a functional programming concept which allows traversal and modification of deeply
+ * nested data structures. Lensing is usually implemented with immutability in mind, but Lenses in
+ * this project **MUTATE** the underlying structure (see generated setter lenses in this project for
+ * details).
+ *
+ * This lensing implementation sourced from <a href = "http://davids-code.blogspot.com/2014/02/immutable-domain-and-lenses-in-java-8.html">http://davids-code.blogspot.com/2014/02/immutable-domain-and-lenses-in-java-8.html</a>
+ *
+ * Example with simple lensing:
+ * <pre>
+ *    assertEquals(Event.StartDate.get(event).getDateTime().toString(), "2016-04-21T20:00Z[UTC]");
+ * </pre>
+ *
+ * Example of lensing through a parameterized or type
+ * <pre>
+ *    assertEquals(Event.Location
+ *             .andThen(PlaceOrPostalAddressOrText.Place)
+ *             .andThen(Place.Address)
+ *             .andThen(OrText.Text())
+ *             .get(event)
+ *             .getValue(), "1600 Pennsylvania Ave NW, Washington, DC 20500");
+ * </pre>
+ *
+ * Example of lensing through a few complex or types
+ * <pre>
+ *    assertEquals(Event.Location
+ *             .andThen(PlaceOrPostalAddressOrText.Place)
+ *             .andThen(Place.Address)
+ *             .andThen(OrText.Value())
+ *             .andThen(PostalAddress.AddressRegion)
+ *             .get(event)
+ *             .getValue(), "PA");
+ * </pre>
+ *
+ * @param <A> Source type
+ * @param <B> Destination type
+ *
+ * @see <a href = "https://www.schoolofhaskell.com/school/to-infinity-and-beyond/pick-of-the-week/basic-lensing">An
+ * introduction to Lenses using Haskell</a>
+ * @see <a href = "http://davids-code.blogspot.com/2014/02/immutable-domain-and-lenses-in-java-8.html">Example
+ * of lensing in Java8</a>
+ * @see <a href = "https://gist.github.com/mathieuancelin/bb30a104c17037e34f0b">Another lensing
+ * implementation</a>
+ */
 public class Lens<A, B> {
 
     private Function<A, B> fget;

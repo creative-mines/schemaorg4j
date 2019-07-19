@@ -11,6 +11,10 @@ import com.schemaorg4j.domain.datatypes.URL;
 import com.schemaorg4j.domain.error.SchemaOrg4JError;
 import java.util.List;
 
+/**
+ * Implementation of {@link com.schemaorg4j.domain.Thing} which contains only a simple String value,
+ * and may contain a next value and/or error objects.
+ */
 public class SimpleThing implements Thing {
 
     private Thing nextThing;
@@ -247,5 +251,14 @@ public class SimpleThing implements Thing {
     @Override
     public void setNextThing(Thing nextThing) {
         this.nextThing = nextThing;
+    }
+
+    /**
+     * Always returns true for this object
+     * @return true
+     */
+    @Override
+    public boolean isSimpleThing() {
+        return true;
     }
 }

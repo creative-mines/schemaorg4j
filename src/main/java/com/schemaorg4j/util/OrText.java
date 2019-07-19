@@ -7,6 +7,12 @@ import java.util.List;
 import java.util.Objects;
 import java.util.function.Consumer;
 
+/**
+ * "X Or Text" is a common value type for fields in a Schema.org object.  To cut down on the
+ * number of classes SchemaOrg4J needs to generate for the complex or return types, this parameterized
+ * type is provided.
+ * @param <T> The type which is not Text
+ */
 public class OrText<T> {
 
     public static <A> Lens<OrText<A>, A> Value() {
@@ -21,7 +27,7 @@ public class OrText<T> {
         return new Lens<>(OrText::getTextData, (a, b) -> a);
     }
 
-    public static final <A> Lens<OrText<A>, OrText<A>> Next() {
+    public static <A> Lens<OrText<A>, OrText<A>> Next() {
         return new Lens<>(OrText::getNextOrText, (a, b) -> a);
     }
 
