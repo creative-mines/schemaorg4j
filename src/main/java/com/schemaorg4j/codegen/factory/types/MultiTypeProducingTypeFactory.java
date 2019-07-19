@@ -7,15 +7,18 @@ import static com.schemaorg4j.codegen.constants.SchemaOrg4JConstants.DOMAIN_PACK
 import static com.schemaorg4j.codegen.factory.types.MethodUtil.getGetter;
 import static com.schemaorg4j.codegen.factory.types.MethodUtil.getSetter;
 
+import com.fasterxml.jackson.databind.deser.impl.CreatorCandidate.Param;
 import com.schemaorg4j.annotations.SchemaOrg4JComboClass;
 import com.schemaorg4j.codegen.domain.SchemaDataType;
 import com.schemaorg4j.codegen.domain.SchemaGraph;
 import com.schemaorg4j.codegen.domain.SchemaProperty;
 import com.schemaorg4j.codegen.domain.SchemaPropertyBuilder;
 import com.schemaorg4j.codegen.jsonld.Util;
+import com.schemaorg4j.domain.error.SchemaOrg4JError;
 import com.squareup.javapoet.AnnotationSpec;
 import com.squareup.javapoet.ClassName;
 import com.squareup.javapoet.FieldSpec;
+import com.squareup.javapoet.ParameterizedTypeName;
 import com.squareup.javapoet.TypeName;
 import com.squareup.javapoet.TypeSpec;
 import com.squareup.javapoet.TypeSpec.Builder;
@@ -87,7 +90,6 @@ public class MultiTypeProducingTypeFactory implements TypeFactory {
             }
 
             combinedTypes.add(field.type);
-
             builder.addField(field);
             builder.addField(FieldUtil.getLensField(className, field, COMBO_TYPE_PACKAGE));
             getSetter(field).forEach(builder::addMethod);
@@ -99,11 +101,19 @@ public class MultiTypeProducingTypeFactory implements TypeFactory {
         getSetter(nextField).forEach(builder::addMethod);
         getGetter(nextField).forEach(builder::addMethod);
 
+        FieldSpec errorField = FieldSpec
+            .builder(ParameterizedTypeName.get(ClassName.get(List.class), ClassName.get(
+                SchemaOrg4JError.class)), "schemaOrg4JErrors", Modifier.PRIVATE).build();
+
+        builder.addField(errorField);
+        getSetter(errorField).forEach(builder::addMethod);
+        getGetter(errorField).forEach(builder::addMethod);
+
         String valueString = String.format("{%s}",
             combinedTypes.stream().map(typeName -> "$T.class").collect(Collectors.joining(", ")));
 
-
-        builder.addAnnotation(AnnotationSpec.builder(SchemaOrg4JComboClass.class).addMember("value", valueString, combinedTypes.toArray()).build());
+        builder.addAnnotation(AnnotationSpec.builder(SchemaOrg4JComboClass.class)
+            .addMember("value", valueString, combinedTypes.toArray()).build());
 
         emittedTypes.add(builder.build());
     }

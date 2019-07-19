@@ -3,7 +3,7 @@ package com.schemaorg4j.domain.datatypes;
 import com.schemaorg4j.util.Lens;
 import java.util.Objects;
 
-public class URL {
+public class URL extends DataType {
 
     private String value;
     private URL nextUrl;

@@ -65,7 +65,7 @@ public class OrTextTest {
     public void valueLensReturnsValueWhenPresent() {
         OrTextTestClassForLenses testClass = new OrTextTestClassForLenses(OrText.value(7));
         assertEquals(
-            OrTextTestClassForLenses.OrText.andThen(OrText.valueLens()).get(testClass).intValue(),
+            OrTextTestClassForLenses.OrText.andThen(OrText.Value()).get(testClass).intValue(),
             7);
     }
 
@@ -73,36 +73,36 @@ public class OrTextTest {
     public void textLensReturnsTextWhenPresent() {
         OrTextTestClassForLenses testClass = new OrTextTestClassForLenses(OrText.text("Hello"));
         assertEquals(
-            OrTextTestClassForLenses.OrText.andThen(OrText.textLens()).get(testClass), "Hello");
+            OrTextTestClassForLenses.OrText.andThen(OrText.Text()).get(testClass), "Hello");
     }
 
     @Test
     public void valueLensReturnsNullWhenNotPresent() {
         OrTextTestClassForLenses testClass = new OrTextTestClassForLenses(OrText.value(7));
         assertNull(
-            OrTextTestClassForLenses.OrText.andThen(OrText.textLens()).get(testClass));
+            OrTextTestClassForLenses.OrText.andThen(OrText.Text()).get(testClass));
     }
 
     @Test
     public void textLensReturnsNullWhenNotPresent() {
         OrTextTestClassForLenses testClass = new OrTextTestClassForLenses(OrText.text("Hello"));
         assertNull(
-            OrTextTestClassForLenses.OrText.andThen(OrText.valueLens()).get(testClass));
+            OrTextTestClassForLenses.OrText.andThen(OrText.Value()).get(testClass));
     }
 
     @Test
     public void orTextLensDoesNotAllowSettingValue() {
         OrTextTestClassForLenses testClass = new OrTextTestClassForLenses(OrText.text("Hello"));
-        OrTextTestClassForLenses.OrText.andThen(OrText.valueLens()).set(testClass, 7);
-        assertEquals(OrTextTestClassForLenses.OrText.andThen(OrText.textLens()).get(testClass),
+        OrTextTestClassForLenses.OrText.andThen(OrText.Value()).set(testClass, 7);
+        assertEquals(OrTextTestClassForLenses.OrText.andThen(OrText.Text()).get(testClass),
             "Hello");
     }
 
     @Test
     public void orTextLensDoesNotAllowSettingText() {
         OrTextTestClassForLenses testClass = new OrTextTestClassForLenses(OrText.text("Hello"));
-        OrTextTestClassForLenses.OrText.andThen(OrText.textLens()).set(testClass, "Goodbye");
-        assertEquals(OrTextTestClassForLenses.OrText.andThen(OrText.textLens()).get(testClass),
+        OrTextTestClassForLenses.OrText.andThen(OrText.Text()).set(testClass, "Goodbye");
+        assertEquals(OrTextTestClassForLenses.OrText.andThen(OrText.Text()).get(testClass),
             "Hello");
     }
 

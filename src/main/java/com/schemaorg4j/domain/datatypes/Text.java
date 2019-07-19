@@ -3,7 +3,7 @@ package com.schemaorg4j.domain.datatypes;
 import com.schemaorg4j.util.Lens;
 import java.util.Objects;
 
-public class Text {
+public class Text extends DataType {
 
     private String value;
     private Text nextText;

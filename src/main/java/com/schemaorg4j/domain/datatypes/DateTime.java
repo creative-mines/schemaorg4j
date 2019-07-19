@@ -4,7 +4,7 @@ import com.schemaorg4j.util.Lens;
 import java.time.ZonedDateTime;
 import java.util.Objects;
 
-public class DateTime {
+public class DateTime extends DataType {
 
     private ZonedDateTime value;
     private DateTime nextDateTime;

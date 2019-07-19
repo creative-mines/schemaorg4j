@@ -3,7 +3,7 @@ package com.schemaorg4j.domain.datatypes;
 import com.schemaorg4j.util.Lens;
 import java.util.Objects;
 
-public class Number {
+public class Number extends DataType {
 
     private java.lang.Float value;
     private Number nextNumber;

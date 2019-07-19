@@ -4,7 +4,7 @@ import com.schemaorg4j.util.Lens;
 import java.time.LocalTime;
 import java.util.Objects;
 
-public class Time {
+public class Time extends DataType {
 
     private LocalTime value;
     private Time nextTime;

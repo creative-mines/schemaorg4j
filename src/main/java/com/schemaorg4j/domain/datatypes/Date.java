@@ -4,7 +4,7 @@ import com.schemaorg4j.util.Lens;
 import java.time.LocalDate;
 import java.util.Objects;
 
-public class Date {
+public class Date extends DataType {
 
     public LocalDate value;
     private Date nextDate;

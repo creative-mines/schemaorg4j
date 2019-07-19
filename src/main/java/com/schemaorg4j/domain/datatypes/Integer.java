@@ -3,7 +3,7 @@ package com.schemaorg4j.domain.datatypes;
 import com.schemaorg4j.util.Lens;
 import java.util.Objects;
 
-public class Integer {
+public class Integer extends DataType {
 
     private java.lang.Integer value;
     private Integer nextInteger;
