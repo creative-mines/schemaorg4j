@@ -33,6 +33,12 @@ jar {
     exclude 'com/schemaorg4j/codegen/*/**', '*.jsonld'
 }
 
+javadoc {
+    source = sourceSets.main.allJava
+    classpath = configurations.compile
+    exclude 'com/schemaorg4j/codegen/*/**', '*.jsonld'
+}
+
 task cleanGenerated(type: Exec) {
     executable "sh"
     args "-c", "rm -rf src/main/java/com/schemaorg4j/domain/*.java " +

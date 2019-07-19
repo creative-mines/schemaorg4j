@@ -39,6 +39,7 @@ public class MethodUtil {
             .addModifiers(Modifier.PUBLIC)
             .addStatement("return $N", fieldSpec.name)
             .returns(fieldSpec.type)
+            .addJavadoc(fieldSpec.javadoc)
             .build();
     }
 

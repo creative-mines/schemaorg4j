@@ -33,7 +33,9 @@ public class ImplementationContributor implements BlueprintContributor {
         Builder builder = TypeSpec
             .classBuilder(label)
             .addModifiers(Modifier.PUBLIC)
-            .addSuperinterface(ClassName.get(DOMAIN_PACKAGE, schemaClass.getLabel()));
+            .addSuperinterface(ClassName.get(DOMAIN_PACKAGE, schemaClass.getLabel()))
+            .addJavadoc(schemaClass.getComment().replace("$", "$$"));
+
 
         builder.addFields(blueprint.getFields());
         builder.addFields(blueprint.getInheritedFields());

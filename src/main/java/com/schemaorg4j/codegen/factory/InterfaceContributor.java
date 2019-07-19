@@ -38,7 +38,8 @@ public class InterfaceContributor implements BlueprintContributor {
 
             addMethods(builder, blueprint);
             addSuperInterfaces(builder, schemaClass);
-            builder.addFields(blueprint.getLensFields());
+            builder.addFields(blueprint.getLensFields())
+                .addJavadoc(schemaClass.getComment());
 
             blueprint.addType(builder.build());
         } catch (IllegalArgumentException e) {
@@ -63,6 +64,7 @@ public class InterfaceContributor implements BlueprintContributor {
             MethodSpec.Builder methodSpecBuilder = MethodSpec
                 .methodBuilder(methodSpec.name)
                 .returns(methodSpec.returnType)
+                .addJavadoc(methodSpec.javadoc)
                 .addParameters(methodSpec.parameters);
 
             if (methodSpec.modifiers.contains(Modifier.DEFAULT)) {

@@ -32,8 +32,10 @@ public class FieldContributor implements BlueprintContributor {
                 if (type != null) {
                     FieldSpec spec = FieldSpec
                         .builder(type.getTypeName(),
-                            orLabelFromId(property.getLabel(), property.getId()),
-                            Modifier.PRIVATE).addAnnotations(type.getFieldAnnotations()).build();
+                            orLabelFromId(property.getLabel(), property.getId()), Modifier.PRIVATE)
+                        .addAnnotations(type.getFieldAnnotations())
+                        .addJavadoc(property.getComment().replace("$", "$$"))
+                        .build();
                     blueprint.addField(spec);
                 } else {
                     LOGGER.warn("Could not determine type for field {} on {}, skipping",

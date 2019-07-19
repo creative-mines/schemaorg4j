@@ -7,7 +7,6 @@ import static com.schemaorg4j.codegen.constants.SchemaOrg4JConstants.DOMAIN_PACK
 import static com.schemaorg4j.codegen.factory.types.MethodUtil.getGetter;
 import static com.schemaorg4j.codegen.factory.types.MethodUtil.getSetter;
 
-import com.fasterxml.jackson.databind.deser.impl.CreatorCandidate.Param;
 import com.schemaorg4j.annotations.SchemaOrg4JComboClass;
 import com.schemaorg4j.codegen.domain.SchemaDataType;
 import com.schemaorg4j.codegen.domain.SchemaGraph;
