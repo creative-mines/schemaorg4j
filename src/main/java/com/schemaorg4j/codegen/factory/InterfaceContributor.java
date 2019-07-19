@@ -1,8 +1,10 @@
 package com.schemaorg4j.codegen.factory;
 
+import static com.schemaorg4j.codegen.StringUtils.escapeDollar;
 import static com.schemaorg4j.codegen.StringUtils.orLabelFromId;
 import static com.schemaorg4j.codegen.constants.SchemaOrg4JConstants.DOMAIN_PACKAGE;
 
+import com.schemaorg4j.codegen.StringUtils;
 import com.schemaorg4j.codegen.domain.SchemaClass;
 import com.schemaorg4j.codegen.domain.SchemaGraph;
 import com.squareup.javapoet.ClassName;
@@ -39,7 +41,7 @@ public class InterfaceContributor implements BlueprintContributor {
             addMethods(builder, blueprint);
             addSuperInterfaces(builder, schemaClass);
             builder.addFields(blueprint.getLensFields())
-                .addJavadoc(schemaClass.getComment());
+                .addJavadoc(escapeDollar(schemaClass.getComment()));
 
             blueprint.addType(builder.build());
         } catch (IllegalArgumentException e) {
@@ -64,7 +66,7 @@ public class InterfaceContributor implements BlueprintContributor {
             MethodSpec.Builder methodSpecBuilder = MethodSpec
                 .methodBuilder(methodSpec.name)
                 .returns(methodSpec.returnType)
-                .addJavadoc(methodSpec.javadoc)
+                .addJavadoc(StringUtils.escapeDollar(methodSpec.javadoc != null ? methodSpec.javadoc.toString() : ""))
                 .addParameters(methodSpec.parameters);
 
             if (methodSpec.modifiers.contains(Modifier.DEFAULT)) {

@@ -2,6 +2,7 @@ package com.schemaorg4j.codegen.factory;
 
 import static com.schemaorg4j.codegen.StringUtils.orLabelFromId;
 
+import com.schemaorg4j.codegen.StringUtils;
 import com.schemaorg4j.codegen.domain.SchemaClass;
 import com.schemaorg4j.codegen.domain.SchemaGraph;
 import com.schemaorg4j.codegen.factory.types.FieldDeclarationRequirement;
@@ -34,7 +35,7 @@ public class FieldContributor implements BlueprintContributor {
                         .builder(type.getTypeName(),
                             orLabelFromId(property.getLabel(), property.getId()), Modifier.PRIVATE)
                         .addAnnotations(type.getFieldAnnotations())
-                        .addJavadoc(property.getComment().replace("$", "$$"))
+                        .addJavadoc(StringUtils.escapeDollar(property.getComment()))
                         .build();
                     blueprint.addField(spec);
                 } else {

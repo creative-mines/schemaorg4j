@@ -4,6 +4,7 @@ import static com.schemaorg4j.codegen.constants.SchemaOrg4JConstants.DOMAIN_PACK
 import static com.schemaorg4j.codegen.factory.types.MethodUtil.getGetter;
 import static com.schemaorg4j.codegen.factory.types.MethodUtil.getSetter;
 
+import com.schemaorg4j.codegen.StringUtils;
 import com.schemaorg4j.codegen.domain.SchemaClass;
 import com.schemaorg4j.codegen.domain.SchemaGraph;
 import com.squareup.javapoet.ClassName;
@@ -34,7 +35,7 @@ public class ImplementationContributor implements BlueprintContributor {
             .classBuilder(label)
             .addModifiers(Modifier.PUBLIC)
             .addSuperinterface(ClassName.get(DOMAIN_PACKAGE, schemaClass.getLabel()))
-            .addJavadoc(schemaClass.getComment().replace("$", "$$"));
+            .addJavadoc(StringUtils.escapeDollar(schemaClass.getComment()));
 
 
         builder.addFields(blueprint.getFields());

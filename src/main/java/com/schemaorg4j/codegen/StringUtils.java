@@ -21,4 +21,11 @@ public class StringUtils {
         }
         return name.substring(0, 1).toLowerCase() + name.substring(1);
     }
+
+    public static String escapeDollar(String comment) {
+        if (comment == null) {
+            return "";
+        }
+        return comment.replace("$", "$$");
+    }
 }
