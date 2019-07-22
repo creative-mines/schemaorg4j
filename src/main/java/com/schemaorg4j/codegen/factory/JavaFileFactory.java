@@ -48,11 +48,11 @@ public class JavaFileFactory {
             add(new ErrorObjectContributor());
             add(new SimpleThingContributor());
             add(new AdditionalDataObjectContributor());
-            add(new NextFieldContributor());
             add(new MethodContributor(graph));
             add(new LensContributor());
-            add(new InterfaceContributor(graph));
             add(new InheritedFieldContributor(graph, typeFactory));
+            add(new NextFieldContributor());
+            add(new InterfaceContributor(graph));
             add(new ImplementationContributor(graph));
         }};
 
@@ -101,7 +101,7 @@ public class JavaFileFactory {
     private JavaFile simpleThing(TypeSpec thingSpec) {
 
         Builder typeSpec = TypeSpec.classBuilder("SimpleThing").addSuperinterface(
-            ClassName.get(DOMAIN_PACKAGE, "Thing"));
+            ClassName.get(DOMAIN_PACKAGE, "Thing")).addModifiers(Modifier.PUBLIC);
 
         typeSpec.addFields(thingSpec.fieldSpecs);
         typeSpec.addMethods(thingSpec.methodSpecs.stream().filter(methodSpec -> !Objects.equals(methodSpec.name, "isSimpleThing")).collect(

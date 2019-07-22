@@ -9,10 +9,9 @@ import com.schemaorg4j.codegen.domain.SchemaClass;
 import com.schemaorg4j.codegen.domain.SchemaGraph;
 import com.schemaorg4j.codegen.factory.BlueprintContributor;
 import com.schemaorg4j.codegen.factory.JavaPoetFileBlueprint;
-import com.schemaorg4j.codegen.jsonld.Util;
+import com.schemaorg4j.codegen.feature.NextFieldFeature;
 import com.squareup.javapoet.ClassName;
 import com.squareup.javapoet.FieldSpec;
-import com.squareup.javapoet.TypeName;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -28,10 +27,12 @@ public class InheritedFieldContributor implements BlueprintContributor {
 
     private final SchemaGraph graph;
     private final TypeFactory factory;
+    private final NextFieldFeature nextFieldFeature;
 
     public InheritedFieldContributor(SchemaGraph graph, TypeFactory factory) {
         this.graph = graph;
         this.factory = factory;
+        this.nextFieldFeature = new NextFieldFeature(DOMAIN_PACKAGE);
     }
 
     @Override
@@ -48,9 +49,20 @@ public class InheritedFieldContributor implements BlueprintContributor {
                     blueprint.addInheritedField(field);
                 }
             });
+
             getInheritedEnumFields(currentId).ifPresent(blueprint::addInheritedField);
-            blueprint
-                .addInheritedField(Util.generateNextField(DOMAIN_PACKAGE, currentClass.getLabel()));
+
+            nextFieldFeature.build(currentClass.getLabel()).handle(field -> {
+                if (blueprint.getInheritedFields().stream()
+                    .noneMatch(existingField -> Objects.equals(existingField.name, field.name))) {
+                    blueprint.addInheritedField(field);
+                }
+            }, method -> {
+                if (blueprint.getMethods().stream().noneMatch(
+                    existingMethod -> Objects.equals(existingMethod.name, method.name))) {
+                    blueprint.addMethod(method);
+                }
+            });
 
             superclassIds.addAll(currentClass.getSubclassOfIds());
         }

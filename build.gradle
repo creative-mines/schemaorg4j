@@ -47,7 +47,8 @@ task cleanGenerated(type: Exec) {
     executable "sh"
     args "-c", "rm -rf src/main/java/com/schemaorg4j/domain/*.java " +
                       "src/main/java/com/schemaorg4j/domain/combo " +
-                      "src/main/java/com/schemaorg4j/domain/enums"
+                      "src/main/java/com/schemaorg4j/domain/enums " +
+                      "src/main/java/com/schemaorg4j/domain/custom"
 }
 
 jacocoTestReport {

@@ -87,8 +87,4 @@ public class Util {
         return result;
     }
 
-    public static FieldSpec generateNextField(String packageName, String className) {
-        return FieldSpec.builder(ClassName.get(packageName, className), "next" + className, Modifier.PRIVATE).build();
-    }
-
 }

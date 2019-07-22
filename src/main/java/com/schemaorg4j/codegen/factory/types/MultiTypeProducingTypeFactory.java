@@ -12,6 +12,7 @@ import com.schemaorg4j.codegen.domain.SchemaDataType;
 import com.schemaorg4j.codegen.domain.SchemaGraph;
 import com.schemaorg4j.codegen.domain.SchemaProperty;
 import com.schemaorg4j.codegen.domain.SchemaPropertyBuilder;
+import com.schemaorg4j.codegen.feature.NextFieldFeature;
 import com.schemaorg4j.codegen.jsonld.Util;
 import com.schemaorg4j.domain.error.SchemaOrg4JError;
 import com.squareup.javapoet.AnnotationSpec;
@@ -38,11 +39,13 @@ public class MultiTypeProducingTypeFactory implements TypeFactory {
     private final TypeFactory collaborator;
     private final List<TypeSpec> emittedTypes;
     private final SchemaGraph graph;
+    private final NextFieldFeature nextFieldFeature;
 
     public MultiTypeProducingTypeFactory(TypeFactory collaborator, SchemaGraph graph) {
         this.collaborator = collaborator;
         this.emittedTypes = new ArrayList<>();
         this.graph = graph;
+        this.nextFieldFeature = new NextFieldFeature(COMBO_TYPE_PACKAGE);
     }
 
     @Override
@@ -95,10 +98,7 @@ public class MultiTypeProducingTypeFactory implements TypeFactory {
             getGetter(field).forEach(builder::addMethod);
         });
 
-        FieldSpec nextField = Util.generateNextField(COMBO_TYPE_PACKAGE, className);
-        builder.addField(nextField);
-        getSetter(nextField).forEach(builder::addMethod);
-        getGetter(nextField).forEach(builder::addMethod);
+        nextFieldFeature.build(className).handle(builder::addField, builder::addMethod);
 
         FieldSpec errorField = FieldSpec
             .builder(ParameterizedTypeName.get(ClassName.get(List.class), ClassName.get(
