@@ -33,8 +33,8 @@ public class InheritedFieldContributorTest {
         new InheritedFieldContributor(schemaGraph, new SimpleTypeFactory(schemaGraph))
             .contribute(schemaClass(), blueprint);
 
-        assertEquals(blueprint.getInheritedFields().get(2).name, "fromThing");
-        assertEquals(blueprint.getInheritedFields().get(2).type.toString(), "com.schemaorg4j.domain.datatypes.Text");
+        assertEquals(blueprint.getInheritedFields().get(3).name, "fromThing");
+        assertEquals(blueprint.getInheritedFields().get(3).type.toString(), "com.schemaorg4j.domain.datatypes.Text");
     }
 
 
