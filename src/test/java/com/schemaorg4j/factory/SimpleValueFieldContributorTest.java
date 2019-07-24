@@ -6,23 +6,16 @@ import static org.junit.Assert.assertEquals;
 import com.schemaorg4j.codegen.domain.SchemaClass;
 import com.schemaorg4j.codegen.domain.SchemaClassBuilder;
 import com.schemaorg4j.codegen.factory.JavaPoetFileBlueprint;
-import com.schemaorg4j.codegen.factory.SimpleThingContributor;
+import com.schemaorg4j.codegen.factory.SimpleValueFieldContributor;
 import org.junit.Test;
 
-public class SimpleThingContributorTest {
+public class SimpleValueFieldContributorTest {
 
     @Test
     public void contributesSimpleThingField() {
         JavaPoetFileBlueprint blueprint = new JavaPoetFileBlueprint();
-        new SimpleThingContributor().contribute(thing(), blueprint);
+        new SimpleValueFieldContributor().contribute(thing(), blueprint);
         assertEquals(blueprint.getFields().get(0).name, "simpleValue");
-    }
-
-    @Test
-    public void contributesDefaultIsSimpleThingMethod() {
-        JavaPoetFileBlueprint blueprint = new JavaPoetFileBlueprint();
-        new SimpleThingContributor().contribute(thing(), blueprint);
-        assertEquals(blueprint.getMethods().get(0).name, "isSimpleThing");
     }
 
     private SchemaClass thing() {

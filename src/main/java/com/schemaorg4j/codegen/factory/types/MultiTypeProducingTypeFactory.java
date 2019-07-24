@@ -4,6 +4,7 @@ import static com.schemaorg4j.codegen.StringUtils.decapitalize;
 import static com.schemaorg4j.codegen.StringUtils.orLabelFromId;
 import static com.schemaorg4j.codegen.constants.SchemaOrg4JConstants.COMBO_TYPE_PACKAGE;
 import static com.schemaorg4j.codegen.constants.SchemaOrg4JConstants.DOMAIN_PACKAGE;
+import static com.schemaorg4j.codegen.factory.SimpleValueFieldContributor.getSimpleValueField;
 import static com.schemaorg4j.codegen.factory.types.MethodUtil.getGetter;
 import static com.schemaorg4j.codegen.factory.types.MethodUtil.getSetter;
 
@@ -68,53 +69,69 @@ public class MultiTypeProducingTypeFactory implements TypeFactory {
 
         property.getRangeIncludesIds().stream().sorted().forEach(id -> {
             String variableName = decapitalize(orLabelFromId(null, id));
-
-            FieldSpec field = null;
-            if (graph.getClass(id) != null) {
-                String classLabel = graph.getClass(id).getLabel();
-                field = getFieldSpec(classLabel, variableName);
-            } else {
-                SchemaDataType dataType = SchemaDataType.findById(id).get();
-                FieldDeclarationRequirement type = new SimpleTypeHandler()
-                    .handle(new SchemaPropertyBuilder()
-                        .setRangeIncludesIds(Collections.singleton(dataType.getId()))
-                        .createSchemaProperty());
-
-                String label = decapitalize(dataType.getLabel());
-                try {
-                    field = FieldSpec.builder(type.getTypeName(), label, Modifier.PRIVATE).build();
-                } catch (IllegalArgumentException e) {
-                    LOGGER.warn("Invalid name generated for field {}, disambiguating", label);
-                    LOGGER.debug("Original error", e);
-                    field = FieldSpec.builder(type.getTypeName(), "$" + label, Modifier.PRIVATE)
-                        .build();
-                }
-            }
+            FieldSpec field = getFieldSpecForIdUsingVariableName(id, variableName);
 
             combinedTypes.add(field.type);
-            builder.addField(field);
-            builder.addField(FieldUtil.getLensField(className, field, COMBO_TYPE_PACKAGE));
-            getSetter(field).forEach(builder::addMethod);
-            getGetter(field).forEach(builder::addMethod);
+            addFieldAndGettersSettersAndLens(builder, field, className);
         });
 
+        addFieldAndGettersSettersAndLens(builder, getSimpleValueField(), className);
         nextFieldFeature.build(className).handle(builder::addField, builder::addMethod);
 
-        FieldSpec errorField = FieldSpec
-            .builder(ParameterizedTypeName.get(ClassName.get(List.class), ClassName.get(
-                SchemaOrg4JError.class)), "schemaOrg4JErrors", Modifier.PRIVATE).build();
+        addErrorField(builder);
+        annotateWithCompositeTypes(builder, combinedTypes);
 
-        builder.addField(errorField);
-        getSetter(errorField).forEach(builder::addMethod);
-        getGetter(errorField).forEach(builder::addMethod);
+        emittedTypes.add(builder.build());
+    }
 
+    private void addFieldAndGettersSettersAndLens(Builder builder, FieldSpec field, String className) {
+        addFieldAndGetterSetters(builder, field);
+        builder.addField(FieldUtil.getLensField(className, field, COMBO_TYPE_PACKAGE));
+    }
+
+    private FieldSpec getFieldSpecForIdUsingVariableName(String id, String variableName) {
+        if (graph.getClass(id) != null) {
+            String classLabel = graph.getClass(id).getLabel();
+            return getFieldSpec(classLabel, variableName);
+        }
+
+        SchemaDataType dataType = SchemaDataType.findById(id).get();
+        FieldDeclarationRequirement type = new SimpleTypeHandler()
+            .handle(new SchemaPropertyBuilder()
+                .setRangeIncludesIds(Collections.singleton(dataType.getId()))
+                .createSchemaProperty());
+
+        String label = decapitalize(dataType.getLabel());
+        try {
+            return FieldSpec.builder(type.getTypeName(), label, Modifier.PRIVATE).build();
+        } catch (IllegalArgumentException e) {
+            LOGGER.warn("Invalid name generated for field {}, disambiguating", label);
+            LOGGER.debug("Original error", e);
+            return FieldSpec.builder(type.getTypeName(), "$" + label, Modifier.PRIVATE)
+                .build();
+        }
+    }
+
+    private void annotateWithCompositeTypes(Builder builder, List<TypeName> combinedTypes) {
         String valueString = String.format("{%s}",
             combinedTypes.stream().map(typeName -> "$T.class").collect(Collectors.joining(", ")));
 
         builder.addAnnotation(AnnotationSpec.builder(SchemaOrg4JComboClass.class)
             .addMember("value", valueString, combinedTypes.toArray()).build());
+    }
 
-        emittedTypes.add(builder.build());
+    private void addErrorField(Builder builder) {
+        FieldSpec errorField = FieldSpec
+            .builder(ParameterizedTypeName.get(ClassName.get(List.class), ClassName.get(
+                SchemaOrg4JError.class)), "schemaOrg4JErrors", Modifier.PRIVATE).build();
+
+        addFieldAndGetterSetters(builder, errorField);
+    }
+
+    private void addFieldAndGetterSetters(Builder builder, FieldSpec fieldSpec) {
+        builder.addField(fieldSpec);
+        getSetter(fieldSpec).forEach(builder::addMethod);
+        getGetter(fieldSpec).forEach(builder::addMethod);
     }
 
     private FieldSpec getFieldSpec(String classLabel, String variableName) {

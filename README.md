@@ -46,7 +46,7 @@ Supposing we have parsed this entry (using `schemaorg4j-parser-json`), we'll be 
 
 ```java
 Book book = ... // Parse the json structure into a Book
-book.getPublisher().asString(); // "Little, Brown, and Company"
+book.getPublisher().getSimpleValue(); // "Little, Brown, and Company"
 
 Book.AggregateRating
             .oAndThen(as(Rating.class))

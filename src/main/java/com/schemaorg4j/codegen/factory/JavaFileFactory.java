@@ -1,7 +1,6 @@
 package com.schemaorg4j.codegen.factory;
 
 import static com.schemaorg4j.codegen.constants.SchemaOrg4JConstants.COMBO_TYPE_PACKAGE;
-import static com.schemaorg4j.codegen.constants.SchemaOrg4JConstants.CUSTOM_PACKAGE;
 import static com.schemaorg4j.codegen.constants.SchemaOrg4JConstants.DOMAIN_PACKAGE;
 import static com.schemaorg4j.codegen.constants.SchemaOrg4JConstants.ENUM_PACKAGE;
 
@@ -11,23 +10,18 @@ import com.schemaorg4j.codegen.factory.types.InheritedFieldContributor;
 import com.schemaorg4j.codegen.factory.types.MultiTypeProducingTypeFactory;
 import com.schemaorg4j.codegen.factory.types.SimpleTypeFactory;
 import com.schemaorg4j.codegen.factory.types.TypeFactory;
-import com.squareup.javapoet.ClassName;
 import com.squareup.javapoet.JavaFile;
-import com.squareup.javapoet.MethodSpec;
-import com.squareup.javapoet.TypeName;
 import com.squareup.javapoet.TypeSpec;
-import com.squareup.javapoet.TypeSpec.Builder;
-import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
-import javax.lang.model.element.Modifier;
 
 public class JavaFileFactory {
 
     private static class Container<T> {
+
         public T value;
     }
 
@@ -46,8 +40,8 @@ public class JavaFileFactory {
             add(new FieldContributor(graph, typeFactory));
             add(enumMemberContributor);
             add(new ErrorObjectContributor());
-            add(new SimpleThingContributor());
             add(new AdditionalDataObjectContributor());
+            add(new SimpleValueFieldContributor());
             add(new MethodContributor(graph));
             add(new LensContributor());
             add(new InheritedFieldContributor(graph, typeFactory));
@@ -93,23 +87,7 @@ public class JavaFileFactory {
 
         fromSchemaOrg.addAll(comboTypes);
         fromSchemaOrg.addAll(enumTypes);
-        fromSchemaOrg.add(simpleThing(thingSpecContainer.value));
 
         return fromSchemaOrg;
     }
-
-    private JavaFile simpleThing(TypeSpec thingSpec) {
-
-        Builder typeSpec = TypeSpec.classBuilder("SimpleThing").addSuperinterface(
-            ClassName.get(DOMAIN_PACKAGE, "Thing")).addModifiers(Modifier.PUBLIC);
-
-        typeSpec.addFields(thingSpec.fieldSpecs);
-        typeSpec.addMethods(thingSpec.methodSpecs.stream().filter(methodSpec -> !Objects.equals(methodSpec.name, "isSimpleThing")).collect(
-            Collectors.toList()));
-        typeSpec.addMethod(MethodSpec.methodBuilder("isSimpleThing").addStatement("return true").returns(
-            TypeName.BOOLEAN).addModifiers(Modifier.PUBLIC).build());
-
-        return JavaFile.builder(CUSTOM_PACKAGE, typeSpec.build()).build();
-    }
-
 }
