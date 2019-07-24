@@ -1,6 +1,8 @@
 package com.schemaorg4j.domain.datatypes;
 
 import com.schemaorg4j.util.Lens;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -52,4 +54,20 @@ public class Number extends DataType {
         return Objects.hash(value);
     }
 
+    private List<Number> nextList;
+
+    public List<Number> asThingList() {
+        if (this.nextList != null) {
+            return this.nextList;
+        }
+
+        this.nextList = new ArrayList<>();
+        this.nextList.add(this);
+        Number tracking = this.getNextNumber();
+        while (tracking != null) {
+            this.nextList.add(tracking);
+            tracking = tracking.getNextNumber();
+        }
+        return this.nextList;
+    }
 }

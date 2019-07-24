@@ -2,6 +2,8 @@ package com.schemaorg4j.domain.datatypes;
 
 import com.schemaorg4j.util.Lens;
 import java.time.ZonedDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -53,4 +55,20 @@ public class DateTime extends DataType {
         return Objects.hash(value);
     }
 
+    private List<DateTime> nextList;
+
+    public List<DateTime> asThingList() {
+        if (this.nextList != null) {
+            return this.nextList;
+        }
+
+        this.nextList = new ArrayList<>();
+        this.nextList.add(this);
+        DateTime tracking = this.getNextDateTime();
+        while (tracking != null) {
+            this.nextList.add(tracking);
+            tracking = tracking.getNextDateTime();
+        }
+        return this.nextList;
+    }
 }

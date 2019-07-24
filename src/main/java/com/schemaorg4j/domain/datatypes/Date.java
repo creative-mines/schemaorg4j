@@ -2,6 +2,8 @@ package com.schemaorg4j.domain.datatypes;
 
 import com.schemaorg4j.util.Lens;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -53,4 +55,20 @@ public class Date extends DataType {
         return Objects.hash(value);
     }
 
+    private List<Date> nextList;
+
+    public List<Date> asThingList() {
+        if (this.nextList != null) {
+            return this.nextList;
+        }
+
+        this.nextList = new ArrayList<>();
+        this.nextList.add(this);
+        Date tracking = this.getNextDate();
+        while (tracking != null) {
+            this.nextList.add(tracking);
+            tracking = tracking.getNextDate();
+        }
+        return this.nextList;
+    }
 }

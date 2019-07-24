@@ -1,6 +1,8 @@
 package com.schemaorg4j.domain.datatypes;
 
 import com.schemaorg4j.util.Lens;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -52,4 +54,20 @@ public class Boolean extends DataType {
         return Objects.hash(value);
     }
 
+    private List<Boolean> nextList;
+
+    public List<Boolean> asThingList() {
+        if (this.nextList != null) {
+            return this.nextList;
+        }
+
+        this.nextList = new ArrayList<>();
+        this.nextList.add(this);
+        Boolean tracking = this.getNextBoolean();
+        while (tracking != null) {
+            this.nextList.add(tracking);
+            tracking = tracking.getNextBoolean();
+        }
+        return this.nextList;
+    }
 }

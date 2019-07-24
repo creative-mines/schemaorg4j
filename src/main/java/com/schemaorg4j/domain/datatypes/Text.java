@@ -1,6 +1,8 @@
 package com.schemaorg4j.domain.datatypes;
 
 import com.schemaorg4j.util.Lens;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -50,4 +52,20 @@ public class Text extends DataType {
         return Objects.hash(value);
     }
 
+    private List<Text> nextList;
+
+    public List<Text> asThingList() {
+        if (this.nextList != null) {
+            return this.nextList;
+        }
+
+        this.nextList = new ArrayList<>();
+        this.nextList.add(this);
+        Text tracking = this.getNextText();
+        while (tracking != null) {
+            this.nextList.add(tracking);
+            tracking = tracking.getNextText();
+        }
+        return this.nextList;
+    }
 }
