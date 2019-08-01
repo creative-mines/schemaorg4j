@@ -1,0 +1,62 @@
+plugins {
+    id 'jacoco'
+}
+
+// Apply the java plugin to add support for Java
+apply plugin: 'java'
+apply plugin: 'maven'
+apply plugin: 'idea'
+
+group 'com.schemaorg4j'
+version '1.0.0-SNAPSHOT'
+
+// In this section you declare where to find the dependencies of your project
+repositories {
+    // Use 'jcenter' for resolving your dependencies.
+    // You can declare any Maven/Ivy/file repository here.
+    jcenter()
+    mavenLocal()
+}
+
+// In this section you declare the dependencies for your production and test code
+dependencies {
+    // Declare the dependency for your favourite test framework you want to use in your tests.
+    // TestNG is also supported by the Gradle Test task. Just change the
+    // testCompile dependency to testCompile 'org.testng:testng:6.8.1' and add
+    // 'test.useTestNG()' to your build script.
+    testCompile 'junit:junit:4.12'
+    implementation 'com.fasterxml.jackson.core:jackson-databind:2.9.9'
+    implementation 'com.squareup:javapoet:1.11.1'
+    implementation 'org.slf4j:slf4j-api:1.7.26'
+    implementation 'org.slf4j:slf4j-simple:1.7.26'
+
+}
+
+jar {
+    manifest {
+        attributes 'Implementation-Title': 'SchemaOrg4J'
+    }
+    exclude 'com/schemaorg4j/codegen/*/**', '*.jsonld'
+}
+
+javadoc {
+    source = sourceSets.main.allJava
+    classpath = configurations.compile
+    exclude 'com/schemaorg4j/codegen/*/**', '*.jsonld'
+}
+
+task cleanGenerated(type: Exec) {
+    executable "sh"
+    args "-c", "rm -rf src/main/java/com/schemaorg4j/domain/*.java " +
+                      "src/main/java/com/schemaorg4j/domain/combo " +
+                      "src/main/java/com/schemaorg4j/domain/enums " +
+                      "src/main/java/com/schemaorg4j/domain/custom"
+}
+
+jacocoTestReport {
+    afterEvaluate {
+        classDirectories = files(classDirectories.files.collect {
+            fileTree(dir: it, exclude: 'com/schemaorg4j/domain/*/**')
+        })
+    }
+}
