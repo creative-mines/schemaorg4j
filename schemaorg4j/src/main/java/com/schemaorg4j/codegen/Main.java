@@ -15,7 +15,7 @@ import org.slf4j.LoggerFactory;
 public class Main {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(Main.class);
-    private static final String SOURCE_LOCATION = "src/main/java";
+    private static final String SOURCE_LOCATION = "build/generated-src/main/java";
 
     public static void main(String[] arguments) throws IOException {
 
