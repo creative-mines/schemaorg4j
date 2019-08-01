@@ -29,7 +29,26 @@ dependencies {
     implementation 'com.squareup:javapoet:1.11.1'
     implementation 'org.slf4j:slf4j-api:1.7.26'
     implementation 'org.slf4j:slf4j-simple:1.7.26'
+}
 
+sourceSets {
+  generated {
+    java { srcDirs = [
+        "$buildDir/generated-src/main/java"
+      ] }
+    compileClasspath += sourceSets.main.output
+  }
+}
+
+task generateSources(type:JavaExec) {
+   main = 'com.schemaorg4j.codegen.Main'
+   classpath = sourceSets.main.runtimeClasspath
+}
+
+task compileGenerated(type:JavaCompile) {
+    classpath = sourceSets.main.runtimeClasspath
+    source = sourceSets.generated.java.srcDirs
+    destinationDir = sourceSets.main.output.classesDir
 }
 
 jar {
@@ -60,3 +79,5 @@ jacocoTestReport {
         })
     }
 }
+compileGenerated.dependsOn generateSources
+jar.dependsOn compileGenerated
