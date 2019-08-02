@@ -7,7 +7,7 @@ apply plugin: 'java'
 apply plugin: 'maven'
 apply plugin: 'idea'
 
-group 'com.schemaorg4j'
+group 'org.creativemines.schemaorg4j'
 version '1.0.0-SNAPSHOT'
 
 // In this section you declare where to find the dependencies of your project
@@ -41,7 +41,7 @@ sourceSets {
 }
 
 task generateSources(type:JavaExec) {
-   main = 'com.schemaorg4j.codegen.Main'
+   main = 'org.creativemines.schemaorg4j.codegen.Main'
    classpath = sourceSets.main.runtimeClasspath
 }
 
@@ -55,27 +55,27 @@ jar {
     manifest {
         attributes 'Implementation-Title': 'SchemaOrg4J'
     }
-    exclude 'com/schemaorg4j/codegen/*/**', '*.jsonld'
+    exclude 'org/creativemines/schemaorg4j/codegen/*/**', '*.jsonld'
 }
 
 javadoc {
     source = sourceSets.main.allJava
     classpath = configurations.compile
-    exclude 'com/schemaorg4j/codegen/*/**', '*.jsonld'
+    exclude 'org/creativemines/schemaorg4j/codegen/*/**', '*.jsonld'
 }
 
 task cleanGenerated(type: Exec) {
     executable "sh"
-    args "-c", "rm -rf src/main/java/com/schemaorg4j/domain/*.java " +
-                      "src/main/java/com/schemaorg4j/domain/combo " +
-                      "src/main/java/com/schemaorg4j/domain/enums " +
-                      "src/main/java/com/schemaorg4j/domain/custom"
+    args "-c", "rm -rf src/main/java/org/creativemines/schemaorg4j/domain/*.java " +
+                      "src/main/java/org/creativemines/schemaorg4j/domain/combo " +
+                      "src/main/java/org/creativemines/schemaorg4j/domain/enums " +
+                      "src/main/java/org/creativemines/schemaorg4j/domain/custom"
 }
 
 jacocoTestReport {
     afterEvaluate {
         classDirectories = files(classDirectories.files.collect {
-            fileTree(dir: it, exclude: 'com/schemaorg4j/domain/*/**')
+            fileTree(dir: it, exclude: 'org/creativemines/schemaorg4j/domain/*/**')
         })
     }
 }

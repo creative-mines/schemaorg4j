@@ -3,7 +3,7 @@ plugins {
     id 'idea'
 }
 
-group 'com.schemaorg4j'
+group 'org.creativemines.schemaorg4j'
 version '1.0.0-SNAPSHOT'
 
 sourceCompatibility = 1.8

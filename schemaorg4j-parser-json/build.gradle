@@ -10,7 +10,7 @@
 apply plugin: 'java'
 apply plugin: 'idea'
 
-group 'com.schemaorg4j'
+group 'org.creativemines.schemaorg4j'
 version '1.0.0-SNAPSHOT'
 
 // In this section you declare where to find the dependencies of your project
